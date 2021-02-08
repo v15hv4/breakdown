@@ -4,7 +4,7 @@ import time
 
 
 class Surface:
-    def __init__(self, framerate=0.3, borders=False) -> None:
+    def __init__(self, framerate=0.03, borders=False) -> None:
         current_size = os.get_terminal_size()
         self.height = current_size.lines - 1
         self.width = current_size.columns
@@ -50,7 +50,8 @@ class Surface:
             # get current game state
             self.reset()
             for entity in self.entities:
-                self.board[entity.x][entity.y] = entity.sprite
+                x, y = entity.position
+                self.board[x][y] = entity.sprite
 
             # render current game state
             for i in range(self.height):
@@ -60,7 +61,7 @@ class Surface:
 
             # transition entities to next state
             for entity in self.entities:
-                entity.move(self)
+                entity.move(self.board)
 
             # delay
             while time.monotonic() - begin < self.framerate:
