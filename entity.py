@@ -8,7 +8,7 @@ import sys
 
 class Entity:
     def __init__(
-        self, dimens=(1, 1), position=(1, 1), velocity=(1, 1), sprite="*", color=Fore.WHITE
+        self, dimens=(1, 1), position=(1, 1), velocity=(0, 0), sprite="*", color=Fore.WHITE
     ) -> None:
         self.dimens = namedtuple("dimens", "w h")(*dimens)
         self.position = np.array(position)

@@ -11,11 +11,11 @@ if __name__ == "__main__":
     surface = Surface(framerate=0.1, borders=True)
 
     # entities
+    wall = Entity(dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
+    surface.register(wall)
+
     aster = Entity(position=(2, 2), velocity=(1, 1))
     surface.register(aster)
-
-    circ = Entity(position=(20, 20), velocity=(-1, -1), sprite="o")
-    surface.register(circ)
 
     # blit surface
     surface.blit()

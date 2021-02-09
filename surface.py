@@ -58,9 +58,11 @@ class Surface:
             # get current game state
             self.reset()
             for entity in self.entities:
-                x, y = entity.position
+                y, x = entity.position
                 entity.move(self.board)
-                self.board[y][x] = entity.sprite
+                for h in range(entity.dimens.h):
+                    for w in range(entity.dimens.w):
+                        self.board[x + h][y + w] = entity.sprite
 
             # render current game state
             for i in range(self.height):
