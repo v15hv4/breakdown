@@ -24,16 +24,16 @@ class Entity:
 
     def collides(self, board) -> bool:
         new_y, new_x = self.position + self.velocity
-        return board[new_x][new_y] != " "
+        return board[new_x][new_y] != None
 
     def available(self, board) -> dict:
         y, x = self.position
         v_y, v_x = self.velocity
         return {
-            "N": board[x - v_x][y] != " ",
-            "S": board[x + v_x][y] != " ",
-            "W": board[x][y - v_y] != " ",
-            "E": board[x][y + v_y] != " ",
+            "N": board[x - v_x][y] != None,
+            "S": board[x + v_x][y] != None,
+            "W": board[x][y - v_y] != None,
+            "E": board[x][y + v_y] != None,
         }
 
     def move(self, board) -> None:
