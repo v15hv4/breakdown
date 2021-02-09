@@ -6,12 +6,11 @@ from entity import Entity
 
 
 class Surface:
-    def __init__(self, framerate=0.03, borders=False) -> None:
+    def __init__(self, framerate=0.03) -> None:
         current_size = os.get_terminal_size()
         self.height = current_size.lines - 1
         self.width = current_size.columns
         self.framerate = framerate
-        self.borders = borders
         self.entities = []
         self.board = []
         self.over = False
@@ -19,14 +18,12 @@ class Surface:
     def reset(self) -> None:
         self.board = [[*[None] * self.width] for _ in range(self.height)]
 
-        # border = Entity(sprite=" ")
-
-        border_topleft = Entity(sprite="+")
-        border_topright = Entity(sprite="+")
-        border_horizontal = Entity(sprite="-")
-        border_vertical = Entity(sprite="|")
-        border_bottomleft = Entity(sprite="+")
-        border_bottomright = Entity(sprite="+")
+        border_topleft = Entity(sprite=" ")
+        border_topright = Entity(sprite=" ")
+        border_horizontal = Entity(sprite=" ")
+        border_vertical = Entity(sprite=" ")
+        border_bottomleft = Entity(sprite=" ")
+        border_bottomright = Entity(sprite=" ")
 
         # draw borders
         for i in range(self.height):
