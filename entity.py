@@ -16,23 +16,27 @@ class Entity:
         self.sprite = color + sprite
 
     def collides(self, board) -> bool:
-        new_x, new_y = self.position + self.velocity
+        new_y, new_x = self.position + self.velocity
         return board[new_x][new_y] != " "
 
     def available(self, board) -> dict:
-        x, y = self.position
-        v_x, v_y = self.velocity
+        y, x = self.position
+        v_y, v_x = self.velocity
         return {
-            "left": board[x - v_x][y] != " ",
-            "right": board[x + v_x][y] != " ",
-            "up": board[x][y - v_y] != " ",
-            "down": board[x][y + v_y] != " ",
+            "N": board[x - v_x][y] != " ",
+            "S": board[x + v_x][y] != " ",
+            "W": board[x][y - v_y] != " ",
+            "E": board[x][y + v_y] != " ",
         }
 
     def move(self, board) -> None:
         if self.collides(board):
             available = self.available(board)
-            left, right, up, down = [int(available[k]) for k in ("left", "right", "up", "down")]
-            self.velocity = self.velocity * np.array([-(left | right) or 1, -(up | down) or 1])
+            W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
+            # self.velocity = self.velocity * np.array([-(W | E) or 1, -(N | S) or 1])
+            if W or E:
+                self.velocity = self.velocity * np.array([-1, 1])
+            if N or S:
+                self.velocity = self.velocity * np.array([1, -1])
         self.position += self.velocity
 

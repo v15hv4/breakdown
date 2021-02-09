@@ -39,6 +39,14 @@ class Surface:
                         else:
                             self.board[i][j] = "━"
 
+                    if i == 10:
+                        if 5 < j < 50:
+                            self.board[i][j] = "|"
+
+                    if i == 30:
+                        if 30 < j < 80:
+                            self.board[i][j] = "|"
+
     def register(self, entity) -> None:
         self.entities.append(entity)
 
@@ -51,17 +59,14 @@ class Surface:
             self.reset()
             for entity in self.entities:
                 x, y = entity.position
-                self.board[x][y] = entity.sprite
+                entity.move(self.board)
+                self.board[y][x] = entity.sprite
 
             # render current game state
             for i in range(self.height):
                 for j in range(self.width):
                     print(self.board[i][j], sep="", end="")
                 print()
-
-            # transition entities to next state
-            for entity in self.entities:
-                entity.move(self.board)
 
             # delay
             while time.monotonic() - begin < self.framerate:
