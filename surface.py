@@ -12,32 +12,35 @@ class Surface:
         self.borders = borders
         self.entities = []
         self.board = []
+        self.over = False
 
     def reset(self) -> None:
         self.board = [[*[" "] * self.width] for _ in range(self.height)]
 
         # draw borders
-        if self.borders:
-            for i in range(self.height):
-                for j in range(self.width):
-                    if j == 0 or j == self.width - 1:
-                        self.board[i][j] = "┃"
+        for i in range(self.height):
+            for j in range(self.width):
+                # sides
+                if j in [0, 1, self.width - 1, self.width - 2]:
+                    self.board[i][j] = "┃" if self.borders else "⠀"
 
-                    if i == 0:
-                        if j == 0:
-                            self.board[i][j] = "┏"
-                        elif j == self.width - 1:
-                            self.board[i][j] = "┓"
-                        else:
-                            self.board[i][j] = "━"
+                # top
+                if i == 0:
+                    if j == 0:
+                        self.board[i][j] = "┏" if self.borders else "⠀"
+                    elif j == self.width - 1:
+                        self.board[i][j] = "┓" if self.borders else "⠀"
+                    else:
+                        self.board[i][j] = "━" if self.borders else "⠀"
 
-                    if i == self.height - 1:
-                        if j == 0:
-                            self.board[i][j] = "┗"
-                        elif j == self.width - 1:
-                            self.board[i][j] = "┛"
-                        else:
-                            self.board[i][j] = "━"
+                # bottom
+                if i == self.height - 1:
+                    if j == 0:
+                        self.board[i][j] = "┗" if self.borders else "⠀"
+                    elif j == self.width - 1:
+                        self.board[i][j] = "┛" if self.borders else "⠀"
+                    else:
+                        self.board[i][j] = "━" if self.borders else "⠀"
 
                     # if i == 10:
                     #     if 5 < j < 50:
@@ -59,10 +62,14 @@ class Surface:
             self.reset()
             for entity in self.entities:
                 y, x = entity.position
-                entity.move(self.board)
-                for h in range(entity.dimens.h):
-                    for w in range(entity.dimens.w):
-                        self.board[x + h][y + w] = entity.sprite
+                self.over = entity.move(self.board)
+                if not self.over:
+                    for h in range(entity.dimens.h):
+                        for w in range(entity.dimens.w):
+                            self.board[x + h][y + w] = entity.sprite
+                else:
+                    print("game over")
+                    return
 
             # render current game state
             for i in range(self.height):

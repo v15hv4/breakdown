@@ -8,14 +8,20 @@ if __name__ == "__main__":
     stdout.flush()
 
     # initialize surface
-    surface = Surface(framerate=0.1, borders=True)
+    surface = Surface(framerate=0.03)
 
     # entities
-    wall = Entity(dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
+    wall = Entity(name="wall", dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
     surface.register(wall)
 
-    aster = Entity(position=(2, 2), velocity=(1, 1))
+    aster = Entity(name="player", position=(2, 2), velocity=(1, 1))
     surface.register(aster)
+
+    circ = Entity(name="player", position=(1, 1), velocity=(1, 0), sprite="o")
+    surface.register(circ)
+
+    amper = Entity(name="player", position=(4, 4), velocity=(0, 1), sprite="&")
+    surface.register(amper)
 
     # blit surface
     surface.blit()
