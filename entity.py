@@ -20,7 +20,7 @@ class Entity:
         self.dimens = namedtuple("dimens", "w h")(*dimens)
         self.position = np.array(position)
         self.velocity = np.array(velocity)
-        self.sprite = color + sprite
+        self.sprite = color + sprite + Fore.RESET
 
     def collides(self, board) -> bool:
         new_y, new_x = self.position + self.velocity

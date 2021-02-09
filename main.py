@@ -1,8 +1,14 @@
 from sys import stdout
+from colorama import init
+
 from surface import Surface
 from entity import Entity
+from ball import Ball
 
 if __name__ == "__main__":
+    # init colorama
+    init()
+
     # hide cursor
     stdout.write("\033[?25l")
     stdout.flush()
@@ -17,11 +23,11 @@ if __name__ == "__main__":
     aster = Entity(name="player", position=(2, 2), velocity=(1, 1))
     surface.register(aster)
 
-    circ = Entity(name="player", position=(1, 1), velocity=(1, 0), sprite="o")
-    surface.register(circ)
-
     amper = Entity(name="player", position=(4, 4), velocity=(0, 1), sprite="&")
     surface.register(amper)
+
+    ball = Ball()
+    surface.register(ball)
 
     # blit surface
     surface.blit()
