@@ -19,7 +19,7 @@ class Surface:
     def reset(self) -> None:
         self.board = [[*[None] * self.width] for _ in range(self.height)]
 
-        border = Entity(sprite="x")
+        border = Entity(sprite=" ")
 
         # draw borders
         for i in range(self.height):

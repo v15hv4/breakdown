@@ -17,13 +17,13 @@ if __name__ == "__main__":
     surface = Surface(framerate=0.03)
 
     # entities
-    wall = Entity(name="wall", dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
+    wall = Entity(id="wall", dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
     surface.register(wall)
 
-    aster = Entity(name="player", position=(2, 2), velocity=(1, 1))
+    aster = Entity(id="player", position=(2, 2), velocity=(1, 1))
     surface.register(aster)
 
-    amper = Entity(name="player", position=(4, 4), velocity=(0, 1), sprite="&")
+    amper = Entity(id="player", position=(4, 4), velocity=(0, 1), sprite="&")
     surface.register(amper)
 
     ball = Ball()
