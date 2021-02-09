@@ -33,7 +33,6 @@ class Entity:
         if self.collides(board):
             available = self.available(board)
             W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
-            # self.velocity = self.velocity * np.array([-(W | E) or 1, -(N | S) or 1])
             if W or E:
                 self.velocity = self.velocity * np.array([-1, 1])
             if N or S:

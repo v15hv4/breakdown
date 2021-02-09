@@ -39,13 +39,13 @@ class Surface:
                         else:
                             self.board[i][j] = "━"
 
-                    if i == 10:
-                        if 5 < j < 50:
-                            self.board[i][j] = "|"
+                    # if i == 10:
+                    #     if 5 < j < 50:
+                    #         self.board[i][j] = "|"
 
-                    if i == 30:
-                        if 30 < j < 80:
-                            self.board[i][j] = "|"
+                    # if i == 30:
+                    #     if 30 < j < 80:
+                    #         self.board[i][j] = "|"
 
     def register(self, entity) -> None:
         self.entities.append(entity)
