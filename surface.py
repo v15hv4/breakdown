@@ -19,32 +19,39 @@ class Surface:
     def reset(self) -> None:
         self.board = [[*[None] * self.width] for _ in range(self.height)]
 
-        border = Entity(sprite=" ")
+        # border = Entity(sprite=" ")
+
+        border_topleft = Entity(sprite="+")
+        border_topright = Entity(sprite="+")
+        border_horizontal = Entity(sprite="-")
+        border_vertical = Entity(sprite="|")
+        border_bottomleft = Entity(sprite="+")
+        border_bottomright = Entity(sprite="+")
 
         # draw borders
         for i in range(self.height):
             for j in range(self.width):
                 # sides
                 if j in [0, self.width - 1]:
-                    self.board[i][j] = border
+                    self.board[i][j] = border_vertical
 
                 # top
                 if i == 0:
                     if j == 0:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_topleft
                     elif j == self.width - 1:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_topright
                     else:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_horizontal
 
                 # bottom
                 if i == self.height - 1:
                     if j == 0:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_bottomleft
                     elif j == self.width - 1:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_bottomright
                     else:
-                        self.board[i][j] = border
+                        self.board[i][j] = border_horizontal
 
     def register(self, entity) -> None:
         self.entities.append(entity)
