@@ -20,13 +20,16 @@ class Ball(Entity):
         try:
             collision = self.collides(game.board)
             if collision:
+
+                # if collided with a brick, hit it
                 if type(collision).__name__ == "Brick":
                     collision.hit(game)
+
                 available = self.available(game.board)
                 W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
-                if W or E:
+                if not W or not E:
                     self.velocity *= np.array([-1, 1])
-                if N or S:
+                if not N or not S:
                     self.velocity *= np.array([1, -1])
             self.position += self.velocity
 

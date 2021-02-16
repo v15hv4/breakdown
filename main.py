@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # amper = Entity(id="amper", position=(4, 4), velocity=(0, 1), sprite="&")
     # game.register(amper)
 
-    ball = Ball()
+    ball = Ball(velocity=(1, 1))
     game.register(ball)
 
     # play game

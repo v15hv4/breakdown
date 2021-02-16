@@ -25,24 +25,19 @@ class Entity:
 
     def collides(self, board) -> bool:
         new_y, new_x = self.position + self.velocity
+        if (new_y >= len(board[0])) or (new_y < 0) or (new_x < 0):
+            return Entity()
         return board[new_x][new_y]
 
     def available(self, board) -> dict:
         y, x = self.position
         v_y, v_x = self.velocity
         return {
-            "N": board[x - v_x][y] != None,
-            "S": board[x + v_x][y] != None,
-            "W": board[x][y - v_y] != None,
-            "E": board[x][y + v_y] != None,
+            "N": (x - abs(v_x) > 0) and (board[x - v_x][y] == None),
+            "S": (x + abs(v_x) < len(board)) and (board[x + v_x][y] == None),
+            "W": (y - abs(v_y) > 0) and (board[x][y - v_y] == None),
+            "E": (y + abs(v_y) < len(board[0])) and (board[x][y + v_y] == None),
         }
 
     def move(self, game) -> None:
-        if self.collides(game.board):
-            available = self.available(game.board)
-            W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
-            if W or E:
-                self.velocity = self.velocity * np.array([-1, 1])
-            if N or S:
-                self.velocity = self.velocity * np.array([1, -1])
-        self.position += self.velocity
+        return
