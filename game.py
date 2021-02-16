@@ -94,7 +94,11 @@ class Game:
             print()
 
     def end_screen(self) -> None:
-        print("game over.")
+        message = "oof."
+        print("\n" * (self.height // 2), end="", sep="")
+        print(" " * ((self.width // 2) - (len(message) // 2)), end="", sep="")
+        print(message)
+        print("\n" * (self.height // 2), end="", sep="")
 
     def play(self) -> None:
         while True:

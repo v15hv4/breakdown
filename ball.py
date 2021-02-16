@@ -25,9 +25,9 @@ class Ball(Entity):
                 available = self.available(game.board)
                 W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
                 if W or E:
-                    self.velocity = self.velocity * np.array([-1, 1])
+                    self.velocity *= np.array([-1, 1])
                 if N or S:
-                    self.velocity = self.velocity * np.array([1, -1])
+                    self.velocity *= np.array([1, -1])
             self.position += self.velocity
 
         except:

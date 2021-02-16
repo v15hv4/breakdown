@@ -15,7 +15,7 @@ if __name__ == "__main__":
     stdout.flush()
 
     # initialize game
-    game = Game(framerate=0.2)
+    game = Game()
 
     # entities
     brick1 = Brick(id="brick1", dimens=(65, 1), position=(1, 10), color=Fore.GREEN)
