@@ -1,7 +1,7 @@
 from sys import stdout
 from colorama import init
 
-from surface import Surface
+from game import Game
 from entity import Entity
 from ball import Ball
 
@@ -13,21 +13,21 @@ if __name__ == "__main__":
     stdout.write("\033[?25l")
     stdout.flush()
 
-    # initialize surface
-    surface = Surface(framerate=0.03)
+    # initialize game
+    game = Game(framerate=0.1)
 
     # entities
-    wall = Entity(id="wall", dimens=(15, 2), position=(8, 10), velocity=(0, 0), sprite="H")
-    surface.register(wall)
+    brick = Entity(id="brick", dimens=(15, 1), position=(8, 10), sprite="H")
+    game.register(brick)
 
-    aster = Entity(id="player", position=(2, 2), velocity=(1, 1))
-    surface.register(aster)
+    # aster = Entity(id="aster", position=(2, 2), velocity=(1, 1))
+    # game.register(aster)
 
-    amper = Entity(id="player", position=(4, 4), velocity=(0, 1), sprite="&")
-    surface.register(amper)
+    # amper = Entity(id="amper", position=(4, 4), velocity=(0, 1), sprite="&")
+    # game.register(amper)
 
     ball = Ball()
-    surface.register(ball)
+    game.register(ball)
 
-    # blit surface
-    surface.blit()
+    # play game
+    game.play()
