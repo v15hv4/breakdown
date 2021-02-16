@@ -4,6 +4,7 @@ import time
 import signal
 
 from entity import Entity
+from colorama import Fore
 
 
 class Game:
@@ -80,7 +81,11 @@ class Game:
         for i in range(self.height):
             for j in range(self.width):
                 if self.board[i][j]:
-                    print(self.board[i][j].sprite, sep="", end="")
+                    print(
+                        f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}",
+                        sep="",
+                        end="",
+                    )
                 else:
                     print(" ", sep="", end="")
             print()
