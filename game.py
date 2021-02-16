@@ -23,7 +23,7 @@ def getchar():
 
 
 class Game:
-    def __init__(self, framerate=0.03) -> None:
+    def __init__(self, framerate=60) -> None:
         current_size = os.get_terminal_size()
         self.height = current_size.lines - 1
         self.width = current_size.columns
@@ -75,7 +75,7 @@ class Game:
     def unregister(self, entity) -> None:
         self.entities = list(filter(lambda e: e.id != entity.id, self.entities))
 
-    def end_screen(self) -> None:
+    def blit_gameover(self) -> None:
         message = "oof."
         print("\n" * (self.height // 2), end="", sep="")
         print(" " * ((self.width // 2) - (len(message) // 2)), end="", sep="")
@@ -93,6 +93,7 @@ class Game:
                     self.board[x + h][y + w] = entity
 
         # render current game state
+        rows = []
         for i in range(self.height):
             for j in range(self.width):
                 if self.board[i][j]:
@@ -106,22 +107,16 @@ class Game:
             print()
 
     def play(self) -> None:
+        interval = 1 / self.framerate
         while True:
-            signal.signal(signal.SIGALRM, lambda *a: 1 / 0)
-
             try:
-                begin = time.monotonic()
-                signal.setitimer(signal.ITIMER_REAL, 0.05)
+                signal.setitimer(signal.ITIMER_REAL, interval)
+                signal.signal(signal.SIGALRM, lambda *a: 1 / 0)
                 os.system("clear")
-
                 if self.over:
-                    self.end_screen()
+                    self.blit_gameover()
                 else:
                     self.blit()
-
                 self.pressed = getchar()
-                if self.pressed == "x":
-                    return
-
             except:
                 self.pressed = None

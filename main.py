@@ -13,7 +13,7 @@ if __name__ == "__main__":
     init()
 
     # initialize game
-    game = Game(framerate=0.1)
+    game = Game(framerate=10)
 
     # bricks
     brick1 = Brick(id="brick1", dimens=(65, 1), position=(1, 10), color=Fore.GREEN)
@@ -33,15 +33,15 @@ if __name__ == "__main__":
     ball = Ball(velocity=(1, 1))
     game.register(ball)
 
-    try:
-        # hide cursor
-        stdout.write("\033[?25l")
-        stdout.flush()
+    # try:
+    # hide cursor
+    stdout.write("\033[?25l")
+    stdout.flush()
 
-        # play game
-        game.play()
+    # play game
+    game.play()
 
-    except:
-        # show cursor
-        stdout.write("\033[?25h")
-        stdout.flush()
+    # except:
+    #     # show cursor
+    #     stdout.write("\033[?25h")
+    #     stdout.flush()
