@@ -37,9 +37,9 @@ class Entity:
             "E": board[x][y + v_y] != None,
         }
 
-    def move(self, board) -> None:
-        if self.collides(board):
-            available = self.available(board)
+    def move(self, game) -> None:
+        if self.collides(game.board):
+            available = self.available(game.board)
             W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
             if W or E:
                 self.velocity = self.velocity * np.array([-1, 1])

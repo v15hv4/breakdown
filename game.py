@@ -67,12 +67,15 @@ class Game:
     def register(self, entity) -> None:
         self.entities.append(entity)
 
+    def unregister(self, entity) -> None:
+        self.entities = list(filter(lambda e: e.id != entity.id, self.entities))
+
     def blit(self) -> None:
         # update game state
         self.reset()
         for entity in self.entities:
             y, x = entity.position
-            entity.move(self.board)
+            entity.move(self)
             for h in range(entity.dimens.h):
                 for w in range(entity.dimens.w):
                     self.board[x + h][y + w] = entity

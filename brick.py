@@ -5,7 +5,7 @@ from colorama import Fore
 
 
 class Brick(Entity):
-    def __init__(self, id, dimens, position, color=Fore.GREEN, health=4) -> None:
+    def __init__(self, id, dimens, position, color=Fore.WHITE, health=4) -> None:
         super().__init__(
             id=id,
             dimens=dimens,
@@ -16,6 +16,10 @@ class Brick(Entity):
         )
         self.health = health
 
-    def hit(self):
+    def hit(self, game):
         self.health -= 1
         self.sprite = str(self.health)
+
+        # break da bricc
+        if self.health <= 0:
+            game.unregister(self)

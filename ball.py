@@ -16,13 +16,13 @@ class Ball(Entity):
             color=Fore.RED,
         )
 
-    def move(self, board) -> None:
+    def move(self, game) -> None:
         try:
-            collision = self.collides(board)
+            collision = self.collides(game.board)
             if collision:
                 if type(collision).__name__ == "Brick":
-                    collision.hit()
-                available = self.available(board)
+                    collision.hit(game)
+                available = self.available(game.board)
                 W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
                 if W or E:
                     self.velocity = self.velocity * np.array([-1, 1])
