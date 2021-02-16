@@ -1,10 +1,25 @@
 import os
-import sys
-import time
 import signal
+import sys
+import termios
+import time
+import tty
+
+from colorama import Fore
 
 from entity import Entity
-from colorama import Fore
+
+
+def getchar():
+    # Returns a single character from standard input
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
 class Game:
@@ -16,6 +31,7 @@ class Game:
         self.entities = []
         self.board = []
         self.over = False
+        self.pressed = None
 
         # handle game over signal
         signal.signal(signal.SIGUSR1, self.end_game)
@@ -23,21 +39,19 @@ class Game:
         # handle game start signal
         signal.signal(signal.SIGUSR2, self.start_game)
 
-    def start_game(self, signum, frame):
+    def start_game(self, *args, **kwargs):
         self.over = True
 
-    def end_game(self, signum, frame):
+    def end_game(self, *args, **kwargs):
         self.over = True
 
     def reset(self) -> None:
-        self.board = [[*[None] * self.width] for _ in range(self.height)]
+        self.board = [[None for _ in range(self.width)] for _ in range(self.height)]
 
         border_topleft = Entity(sprite="+")
         border_topright = Entity(sprite="+")
         border_horizontal = Entity(sprite="-")
         border_vertical = Entity(sprite="|")
-        # border_bottomleft = Entity(sprite=" ")
-        # border_bottomright = Entity(sprite=" ")
 
         # draw borders
         for i in range(self.height):
@@ -55,20 +69,18 @@ class Game:
                     else:
                         self.board[i][j] = border_horizontal
 
-                # bottom
-                # if i == self.height - 1:
-                #     if j == 0:
-                #         self.board[i][j] = border_bottomleft
-                #     elif j == self.width - 1:
-                #         self.board[i][j] = border_bottomright
-                #     else:
-                #         self.board[i][j] = border_horizontal
-
     def register(self, entity) -> None:
         self.entities.append(entity)
 
     def unregister(self, entity) -> None:
         self.entities = list(filter(lambda e: e.id != entity.id, self.entities))
+
+    def end_screen(self) -> None:
+        message = "oof."
+        print("\n" * (self.height // 2), end="", sep="")
+        print(" " * ((self.width // 2) - (len(message) // 2)), end="", sep="")
+        print(message)
+        print("\n" * (self.height // 2), end="", sep="")
 
     def blit(self) -> None:
         # update game state
@@ -93,23 +105,23 @@ class Game:
                     print(" ", sep="", end="")
             print()
 
-    def end_screen(self) -> None:
-        message = "oof."
-        print("\n" * (self.height // 2), end="", sep="")
-        print(" " * ((self.width // 2) - (len(message) // 2)), end="", sep="")
-        print(message)
-        print("\n" * (self.height // 2), end="", sep="")
-
     def play(self) -> None:
         while True:
-            begin = time.monotonic()
-            os.system("clear")
+            signal.signal(signal.SIGALRM, lambda *a: 1 / 0)
 
-            if self.over:
-                self.end_screen()
-            else:
-                self.blit()
+            try:
+                begin = time.monotonic()
+                signal.setitimer(signal.ITIMER_REAL, 0.05)
+                os.system("clear")
 
-            # delay
-            while time.monotonic() - begin < self.framerate:
-                pass
+                if self.over:
+                    self.end_screen()
+                else:
+                    self.blit()
+
+                self.pressed = getchar()
+                if self.pressed == "x":
+                    return
+
+            except:
+                self.pressed = None
