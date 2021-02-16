@@ -18,7 +18,10 @@ class Ball(Entity):
 
     def move(self, board) -> None:
         try:
-            if self.collides(board):
+            collision = self.collides(board)
+            if collision:
+                if type(collision).__name__ == "Brick":
+                    collision.hit()
                 available = self.available(board)
                 W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
                 if W or E:

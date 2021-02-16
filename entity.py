@@ -24,7 +24,7 @@ class Entity:
 
     def collides(self, board) -> bool:
         new_y, new_x = self.position + self.velocity
-        return board[new_x][new_y] != None
+        return board[new_x][new_y]
 
     def available(self, board) -> dict:
         y, x = self.position
@@ -45,4 +45,3 @@ class Entity:
             if N or S:
                 self.velocity = self.velocity * np.array([1, -1])
         self.position += self.velocity
-

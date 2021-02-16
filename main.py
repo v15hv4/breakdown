@@ -4,6 +4,7 @@ from colorama import init
 from game import Game
 from entity import Entity
 from ball import Ball
+from brick import Brick
 
 if __name__ == "__main__":
     # init colorama
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     game = Game(framerate=0.1)
 
     # entities
-    brick = Entity(id="brick", dimens=(15, 1), position=(8, 10), sprite="H")
+    brick = Brick(id="brick", dimens=(65, 1), position=(1, 10))
     game.register(brick)
 
     # aster = Entity(id="aster", position=(2, 2), velocity=(1, 1))
