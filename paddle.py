@@ -17,9 +17,11 @@ class Paddle(Entity):
 
     def move(self, game) -> None:
         try:
-            if game.pressed == "a":
+            if (game.pressed == "a") and ((self.position - self.velocity)[0] > 0):
                 self.position -= self.velocity
-            elif game.pressed == "d":
+            elif (game.pressed == "d") and (
+                (self.position + self.velocity + self.dimens)[0] <= game.width - 1
+            ):
                 self.position += self.velocity
         except:
             pass
