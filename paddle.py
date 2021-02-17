@@ -17,11 +17,17 @@ class Paddle(Entity):
 
     def move(self, game) -> None:
         try:
-            if (game.pressed == "a") and ((self.position - self.velocity)[0] > 0):
-                self.position -= self.velocity
-            elif (game.pressed == "d") and (
-                (self.position + self.velocity + self.dimens)[0] <= game.width - 1
-            ):
-                self.position += self.velocity
+            vx, vy = self.velocity
+
+            if game.pressed == "a":
+                for _ in range(vx):
+                    if self.position[0] - 1 > 0:
+                        self.position -= np.array([1, 0])
+
+            if game.pressed == "d":
+                for _ in range(vx):
+                    if self.position[0] + 1 <= game.width - 31:
+                        self.position += np.array([1, 0])
+
         except:
             pass
