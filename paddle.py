@@ -5,7 +5,7 @@ from colorama import Fore
 
 
 class Paddle(Entity):
-    def __init__(self, dimens=(7, 1), position=(40, 40), velocity=(2, 0)) -> None:
+    def __init__(self, dimens=(15, 1), position=(40, 40), velocity=(2, 0)) -> None:
         super().__init__(
             id="paddle",
             dimens=dimens,

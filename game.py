@@ -11,7 +11,7 @@ from entity import Entity
 
 
 def getchar():
-    # Returns a single character from standard input
+    # return a single character from standard input
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
@@ -115,6 +115,7 @@ class Game:
     def play(self) -> None:
         interval = 1 / self.framerate
         os.system("clear")
+        last_pressed = 0
         while True:
             try:
                 signal.setitimer(signal.ITIMER_REAL, interval)
@@ -124,5 +125,7 @@ class Game:
                 else:
                     self.blit()
                 self.pressed = getchar()
+                last_pressed = time.time_ns()
             except:
-                self.pressed = None
+                if time.time_ns() - last_pressed >= 250000000:
+                    self.pressed = None
