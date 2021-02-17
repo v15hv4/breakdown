@@ -13,7 +13,7 @@ if __name__ == "__main__":
     init()
 
     # initialize game
-    game = Game(framerate=10)
+    game = Game(framerate=20)
 
     # bricks
     brick1 = Brick(id="brick1", dimens=(65, 1), position=(1, 10), color=Fore.GREEN)
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     game.register(brick3)
 
     # paddle
-    paddle = Paddle(position=((game.width // 2) - 3, game.height - 2))
+    paddle = Paddle(position=((game.width // 2) - 3, game.height - 2), velocity=(2, 0))
     game.register(paddle)
 
     # ball

@@ -33,6 +33,12 @@ class Game:
         self.over = False
         self.pressed = None
 
+        self.cursor = {
+            "RESET": lambda: f"\x1b[H",
+            "DOWN": lambda n: f"\x1b[{n}B",
+            "RIGHT": lambda n: f"\x1b[{n}C",
+        }
+
         # handle game over signal
         signal.signal(signal.SIGUSR1, self.end_game)
 
@@ -77,10 +83,11 @@ class Game:
 
     def blit_gameover(self) -> None:
         message = "oof."
-        print("\n" * (self.height // 2), end="", sep="")
-        print(" " * ((self.width // 2) - (len(message) // 2)), end="", sep="")
-        print(message)
-        print("\n" * (self.height // 2), end="", sep="")
+        sys.stdout.write("\n" * (self.height // 2))
+        sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
+        sys.stdout.write(message)
+        sys.stdout.write("\n" * (self.height // 2))
+        sys.stdout.flush()
 
     def blit(self) -> None:
         # update game state
@@ -93,26 +100,25 @@ class Game:
                     self.board[x + h][y + w] = entity
 
         # render current game state
-        rows = []
         for i in range(self.height):
-            for j in range(self.width):
+            for j in range(-1, self.width):
+                sys.stdout.write(self.cursor["RESET"]())
+                sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j)}")
                 if self.board[i][j]:
-                    print(
-                        f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}",
-                        sep="",
-                        end="",
+                    sys.stdout.write(
+                        f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}"
                     )
                 else:
-                    print(" ", sep="", end="")
-            print()
+                    sys.stdout.write(" ")
+            sys.stdout.flush()
 
     def play(self) -> None:
         interval = 1 / self.framerate
+        os.system("clear")
         while True:
             try:
                 signal.setitimer(signal.ITIMER_REAL, interval)
                 signal.signal(signal.SIGALRM, lambda *a: 1 / 0)
-                os.system("clear")
                 if self.over:
                     self.blit_gameover()
                 else:
