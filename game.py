@@ -5,7 +5,7 @@ import termios
 import time
 import tty
 
-from colorama import Fore
+from colorama import Fore, Back
 
 from entity import Entity
 
@@ -54,10 +54,9 @@ class Game:
     def reset(self) -> None:
         self.board = [[None for _ in range(self.width)] for _ in range(self.height)]
 
-        border_topleft = Entity(sprite="+")
-        border_topright = Entity(sprite="+")
-        border_horizontal = Entity(sprite="-")
-        border_vertical = Entity(sprite="|")
+        border_corner = Entity(sprite="┼")
+        border_horizontal = Entity(sprite="─")
+        border_vertical = Entity(sprite="│")
 
         # draw borders
         for i in range(self.height):
@@ -68,10 +67,8 @@ class Game:
 
                 # top
                 if i == 0:
-                    if j == 0:
-                        self.board[i][j] = border_topleft
-                    elif j == self.width - 1:
-                        self.board[i][j] = border_topright
+                    if j == self.width - 1:
+                        self.board[i][j] = border_corner
                     else:
                         self.board[i][j] = border_horizontal
 
@@ -82,7 +79,30 @@ class Game:
         self.entities = list(filter(lambda e: e.id != entity.id, self.entities))
 
     def blit_gameover(self) -> None:
-        message = "oof."
+        message = (
+            Fore.YELLOW
+            + """
+                                ⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⣠⣤⣶⣶
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⢰⣿⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣀⣀⣾⣿⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⡏⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿
+                                ⣿⣿⣿⣿⣿⣿⠀⠀⠀⠈⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁⠀⣿
+                                ⣿⣿⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠙⠿⠿⠿⠻⠿⠿⠟⠿⠛⠉⠀⠀⠀⠀⠀⣸⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣴⣿⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⢰⣹⡆⠀⠀⠀⠀⠀⠀⣭⣷⠀⠀⠀⠸⣿⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠈⠉⠀⠀⠤⠄⠀⠀⠀⠉⠁⠀⠀⠀⠀⢿⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⢾⣿⣷⠀⠀⠀⠀⡠⠤⢄⠀⠀⠀⠠⣿⣿⣷⠀⢸⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⡀⠉⠀⠀⠀⠀⠀⢄⠀⢀⠀⠀⠀⠀⠉⠉⠁⠀⠀⣿⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿
+                                ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿
+        """
+            + Fore.RESET
+            + """
+                                          lmao noob
+            """
+        )
+
         sys.stdout.write("\n" * (self.height // 2))
         sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
         sys.stdout.write(message)

@@ -11,8 +11,8 @@ class Paddle(Entity):
             dimens=dimens,
             position=position,
             velocity=velocity,
-            sprite="M",
-            color=Fore.YELLOW,
+            sprite="▀",
+            color=Fore.CYAN,
         )
 
     def move(self, game) -> None:

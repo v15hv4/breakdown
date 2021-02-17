@@ -1,4 +1,5 @@
 from sys import stdout
+from random import randint
 
 from colorama import Fore, init
 
@@ -16,21 +17,28 @@ if __name__ == "__main__":
     game = Game(framerate=24)
 
     # bricks
-    brick1 = Brick(id="brick1", dimens=(65, 1), position=(1, 10), color=Fore.GREEN)
-    game.register(brick1)
-
-    brick2 = Brick(id="brick2", dimens=(65, 1), position=(20, 20), color=Fore.BLUE)
-    game.register(brick2)
-
-    brick3 = Brick(id="brick3", dimens=(2, 2), position=(30, 30), color=Fore.CYAN)
-    game.register(brick3)
+    BRICK_WIDTH = 8
+    SCREEN_PADDING = 7
+    for i in range(8):
+        for j in range(5):
+            brick = Brick(
+                id=f"brick{i}{j}",
+                dimens=(BRICK_WIDTH, 1),
+                position=(SCREEN_PADDING + (i * BRICK_WIDTH) + 2 * i, 3 + (2 * j)),
+                health=randint(1, 4),
+            )
+            game.register(brick)
 
     # paddle
-    paddle = Paddle(dimens=(30, 1), position=((game.width // 2) - 3, game.height - 2))
+    PADDLE_WIDTH = 30
+    paddle = Paddle(
+        dimens=(PADDLE_WIDTH, 1),
+        position=((game.width // 2) - (PADDLE_WIDTH // 2), game.height - 2),
+    )
     game.register(paddle)
 
     # ball
-    ball = Ball(velocity=(1, 1))
+    ball = Ball(position=(20, 20), velocity=(1, 1))
     game.register(ball)
 
     try:

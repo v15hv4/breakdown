@@ -3,22 +3,24 @@ import numpy as np
 from entity import Entity
 from colorama import Fore
 
+colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED]
+
 
 class Brick(Entity):
-    def __init__(self, id, dimens, position, color=Fore.WHITE, health=4) -> None:
+    def __init__(self, id, dimens, position, health=4) -> None:
         super().__init__(
             id=id,
             dimens=dimens,
             position=position,
             velocity=(0, 0),
-            sprite=str(health),
-            color=color,
+            sprite="⣿",
+            color=colormap[health - 1],
         )
         self.health = health
 
     def hit(self, game):
         self.health -= 1
-        self.sprite = str(self.health)
+        self.color = colormap[self.health - 1]
 
         # break da bricc
         if self.health <= 0:

@@ -12,8 +12,8 @@ class Ball(Entity):
             dimens=(1, 1),
             position=position,
             velocity=velocity,
-            sprite="O",
-            color=Fore.RED,
+            sprite="⬤",
+            color=Fore.LIGHTWHITE_EX,
         )
 
     def move(self, game) -> None:
