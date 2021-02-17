@@ -33,15 +33,15 @@ if __name__ == "__main__":
     ball = Ball(velocity=(1, 1))
     game.register(ball)
 
-    # try:
-    # hide cursor
-    stdout.write("\033[?25l")
-    stdout.flush()
+    try:
+        # hide cursor
+        stdout.write("\033[?25l")
+        stdout.flush()
 
-    # play game
-    game.play()
+        # play game
+        game.play()
 
-    # except:
-    #     # show cursor
-    #     stdout.write("\033[?25h")
-    #     stdout.flush()
+    except:
+        # show cursor
+        stdout.write("\033[?25h")
+        stdout.flush()

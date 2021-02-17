@@ -127,5 +127,5 @@ class Game:
                 self.pressed = getchar()
                 last_pressed = time.time_ns()
             except:
-                if time.time_ns() - last_pressed >= 250000000:
+                if time.time_ns() - last_pressed >= 300000000:
                     self.pressed = None
