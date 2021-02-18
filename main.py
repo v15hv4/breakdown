@@ -1,7 +1,10 @@
-from sys import stdout
-from random import randint
+import os
+import signal
 
-from colorama import Fore, init
+from random import randint
+from sys import stdout
+
+from colorama import Fore, init, deinit
 
 from ball import Ball
 from brick import Brick
@@ -42,14 +45,25 @@ if __name__ == "__main__":
     game.register(ball)
 
     try:
+        signal.signal(signal.SIGINT, lambda *a: 1 / 0)
+
         # hide cursor
         stdout.write("\033[?25l")
         stdout.flush()
+
+        # remove keyboard repeat delay
+        os.system("xset r rate 1")
 
         # play game
         game.play()
 
     except:
         # show cursor
-        stdout.write("\033[?25h")
+        stdout.write("\033[?25h \x1b[H")
         stdout.flush()
+
+        # add back keyboard repeat delay
+        os.system("xset r rate 660 25")
+
+        # deinit colorama
+        deinit()

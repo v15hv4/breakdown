@@ -22,6 +22,14 @@ def getchar():
     return ch
 
 
+class TimeoutException(Exception):
+    pass
+
+
+def timeoutException(*args):
+    raise TimeoutException
+
+
 class Game:
     def __init__(self, framerate=60) -> None:
         current_size = os.get_terminal_size()
@@ -34,7 +42,7 @@ class Game:
         self.pressed = None
 
         self.cursor = {
-            "RESET": lambda: f"\x1b[H",
+            "RESET": lambda: f"\x1b[3;0H",
             "DOWN": lambda n: f"\x1b[{n}B",
             "RIGHT": lambda n: f"\x1b[{n}C",
         }
@@ -100,6 +108,11 @@ class Game:
         sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
         sys.stdout.write(message)
         sys.stdout.flush()
+        sys.stdout.write(self.cursor["RESET"]())
+
+        # exit game
+        if self.pressed == "\x1b":
+            signal.raise_signal(2)
 
     def blit(self) -> None:
         # update game state
@@ -123,6 +136,7 @@ class Game:
                 else:
                     sys.stdout.write(" ")
             sys.stdout.flush()
+        sys.stdout.write(self.cursor["RESET"]())
 
     def play(self) -> None:
         interval = 1 / self.framerate
@@ -131,12 +145,12 @@ class Game:
         while True:
             try:
                 signal.setitimer(signal.ITIMER_REAL, interval)
-                signal.signal(signal.SIGALRM, lambda *a: 1 / 0)
+                signal.signal(signal.SIGALRM, timeoutException)
                 if self.over:
                     self.blit_gameover()
                 else:
                     self.blit()
                 self.pressed = getchar()
                 last_pressed = time.time_ns()
-            except:
+            except TimeoutException:
                 self.pressed = None

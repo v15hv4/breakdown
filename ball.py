@@ -26,10 +26,12 @@ class Ball(Entity):
                     collision.hit(game)
 
                 if type(collision).__name__ == "Paddle":
-                    if self.position[0] == collision.position[0]:
-                        self.velocity = np.array([-3, -1])
-                    elif self.position[0] == collision.position[0] + collision.dimens[0]:
-                        self.velocity = np.array([3, -1])
+                    delta = collision.dimens[0] / 3
+
+                    if 0 <= self.position[0] - collision.position[0] <= delta:
+                        self.velocity = np.array([-2, -1])
+                    elif (2 * delta) <= self.position[0] - collision.position[0] <= (3 * delta):
+                        self.velocity = np.array([2, -1])
                     else:
                         self.velocity *= np.array([1, -1])
 
