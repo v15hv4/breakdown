@@ -17,14 +17,14 @@ if __name__ == "__main__":
     game = Game(framerate=24)
 
     # bricks
-    BRICK_WIDTH = 8
+    BRICK_WIDTH = 10
     SCREEN_PADDING = 7
     for i in range(8):
         for j in range(5):
             brick = Brick(
                 id=f"brick{i}{j}",
                 dimens=(BRICK_WIDTH, 1),
-                position=(SCREEN_PADDING + (i * BRICK_WIDTH) + 2 * i, 3 + (2 * j)),
+                position=(SCREEN_PADDING + (i * BRICK_WIDTH), 3 + j),
                 health=randint(1, 4),
             )
             game.register(brick)
