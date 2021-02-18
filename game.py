@@ -31,10 +31,9 @@ def timeoutException(*args):
 
 
 class Game:
-    def __init__(self, framerate=60) -> None:
-        current_size = os.get_terminal_size()
-        self.height = current_size.lines
-        self.width = current_size.columns + 1
+    def __init__(self, width, height, framerate=60) -> None:
+        self.height = height
+        self.width = width
         self.framerate = framerate
         self.entities = []
         self.board = []
