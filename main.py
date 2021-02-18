@@ -14,7 +14,7 @@ if __name__ == "__main__":
     init()
 
     # initialize game
-    game = Game(framerate=24)
+    game = Game(framerate=20)
 
     # bricks
     BRICK_WIDTH = 10

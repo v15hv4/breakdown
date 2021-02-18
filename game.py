@@ -81,25 +81,24 @@ class Game:
     def blit_gameover(self) -> None:
         os.system("clear")
         message = f"""
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢋⣩⣉⢻⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⠀⣿⣶⣕⣈⠹⠿⠿⠿⠿⠟⠛⣛⢋⣰⠣⣿⣿⠀⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⡀⣿⣿⣿⣧⢻⣿⣶⣷⣿⣿⣿⣿⣿⣿⠿⠶⡝⠀⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣷⠘⣿⣿⣿⢏⣿⣿⣋⣀⣈⣻⣿⣿⣷⣤⣤⣿⡐⢿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⣆⢩⣝⣫⣾⣿⣿⣿⣿⣿⣿⣿⠦⠀⠸⣿⣿⡄⢻
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⢻⠇⣼
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⣿⣿⡄⢿⣿⣿⣿⣿⣿⠀⠀noob⠀ ⡟⣰
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⣿⣿⠇⣼⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⣼⢀⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⣿⠏⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⣿⠟⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⣿⠋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿
-{" " * ((self.width // 2) - 11)}⣿⣿⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸
-{" " * ((self.width // 2) - 11)}⣿⠏⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢋⣩⣉⢻⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⠀⣿⣶⣕⣈⠹⠿⠿⠿⠿⠟⠛⣛⢋⣰⠣⣿⣿⠀⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⡀⣿⣿⣿⣧⢻⣿⣶⣷⣿⣿⣿⣿⣿⣿⠿⠶⡝⠀⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣷⠘⣿⣿⣿⢏⣿⣿⣋⣀⣈⣻⣿⣿⣷⣤⣤⣿⡐⢿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⣆⢩⣝⣫⣾⣿⣿⣿⣿⣿⣿⣿⠦⠀⠸⣿⣿⡄⢻
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⢻⠇⣼
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⣿⣿⡄⢿⣿⣿⣿⣿⣿⠀⠀noob⠀ ⡟⣰
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⣿⣿⠇⣼⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⣼⢀⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⣿⠏⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⣿⠟⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⣿⠋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿
+{" " * ((self.width // 2) - 10)}⣿⣿⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸
+{" " * ((self.width // 2) - 10)}⣿⠏⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸
         """
 
-        sys.stdout.write("\n" * (self.height // 2))
+        sys.stdout.write("\n" * (self.height // 3))
         sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
         sys.stdout.write(message)
-        sys.stdout.write("\n" * (self.height // 2))
         sys.stdout.flush()
 
     def blit(self) -> None:
@@ -140,5 +139,4 @@ class Game:
                 self.pressed = getchar()
                 last_pressed = time.time_ns()
             except:
-                if time.time_ns() - last_pressed >= 300000000:
-                    self.pressed = None
+                self.pressed = None

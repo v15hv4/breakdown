@@ -25,12 +25,21 @@ class Ball(Entity):
                 if type(collision).__name__ == "Brick":
                     collision.hit(game)
 
-                available = self.available(game.board)
-                W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
-                if not W or not E:
-                    self.velocity *= np.array([-1, 1])
-                if not N or not S:
-                    self.velocity *= np.array([1, -1])
+                if type(collision).__name__ == "Paddle":
+                    if self.position[0] == collision.position[0]:
+                        self.velocity = np.array([-3, -1])
+                    elif self.position[0] == collision.position[0] + collision.dimens[0]:
+                        self.velocity = np.array([3, -1])
+                    else:
+                        self.velocity *= np.array([1, -1])
+
+                else:
+                    available = self.available(game.board)
+                    W, E, N, S = [int(available[k]) for k in ("W", "E", "N", "S")]
+                    if not W or not E:
+                        self.velocity *= np.array([-1, 1])
+                    if not N or not S:
+                        self.velocity *= np.array([1, -1])
             self.position += self.velocity
 
         except:
