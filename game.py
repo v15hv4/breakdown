@@ -33,8 +33,8 @@ def timeoutException(*args):
 class Game:
     def __init__(self, framerate=60) -> None:
         current_size = os.get_terminal_size()
-        self.height = current_size.lines - 1
-        self.width = current_size.columns
+        self.height = current_size.lines
+        self.width = current_size.columns + 1
         self.framerate = framerate
         self.entities = []
         self.board = []
@@ -42,7 +42,7 @@ class Game:
         self.pressed = None
 
         self.cursor = {
-            "RESET": lambda: f"\x1b[3;0H",
+            "RESET": lambda: f"\x1b[H",
             "DOWN": lambda n: f"\x1b[{n}B",
             "RIGHT": lambda n: f"\x1b[{n}C",
         }
@@ -62,7 +62,8 @@ class Game:
     def reset(self) -> None:
         self.board = [[None for _ in range(self.width)] for _ in range(self.height)]
 
-        border_corner = Entity(sprite="┼")
+        border_topleft = Entity(sprite="┌")
+        border_topright = Entity(sprite="┐")
         border_horizontal = Entity(sprite="─")
         border_vertical = Entity(sprite="│")
 
@@ -75,8 +76,10 @@ class Game:
 
                 # top
                 if i == 0:
-                    if j == self.width - 1:
-                        self.board[i][j] = border_corner
+                    if j == 0:
+                        self.board[i][j] = border_topleft
+                    elif j == self.width - 1:
+                        self.board[i][j] = border_topright
                     else:
                         self.board[i][j] = border_horizontal
 
@@ -126,9 +129,9 @@ class Game:
 
         # render current game state
         for i in range(self.height):
-            for j in range(-1, self.width):
+            for j in range(self.width):
                 sys.stdout.write(self.cursor["RESET"]())
-                sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j)}")
+                sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
                 if self.board[i][j]:
                     sys.stdout.write(
                         f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}"
