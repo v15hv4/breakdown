@@ -1,6 +1,6 @@
 import os
 
-FRAME_RATE = 20
+FRAME_RATE = 22
 
 # screen properties
 SCREEN_WIDTH = os.get_terminal_size().columns + 1

@@ -3,7 +3,7 @@ import numpy as np
 from entity import Entity
 from colorama import Fore
 
-colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED]
+colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED, Fore.BLACK]
 
 
 class Brick(Entity):
