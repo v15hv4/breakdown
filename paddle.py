@@ -26,7 +26,7 @@ class Paddle(Entity):
 
             if game.pressed == "d":
                 for _ in range(vx):
-                    if self.position[0] + 1 <= game.width - 32:
+                    if self.position[0] + 1 <= game.width - (self.dimens[0] + 1):
                         self.position += np.array([1, 0])
 
         except:
