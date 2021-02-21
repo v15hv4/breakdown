@@ -24,4 +24,5 @@ class Brick(Entity):
 
         # break da bricc
         if self.health <= 0:
+            game.increment_score()
             game.unregister(self)

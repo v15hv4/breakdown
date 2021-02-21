@@ -39,6 +39,7 @@ class Game:
         self.board = []
         self.over = False
         self.pressed = None
+        self.score = 0
 
         self.cursor = {
             "RESET": lambda: f"\x1b[H",
@@ -53,10 +54,14 @@ class Game:
         signal.signal(signal.SIGUSR2, self.start_game)
 
     def start_game(self, *args, **kwargs):
-        self.over = True
+        self.score = 0
+        self.over = False
 
     def end_game(self, *args, **kwargs):
         self.over = True
+
+    def increment_score(self):
+        self.score += 100
 
     def reset(self) -> None:
         self.board = [[None for _ in range(self.width)] for _ in range(self.height)]
@@ -91,6 +96,8 @@ class Game:
     def blit_gameover(self) -> None:
         os.system("clear")
         message = f"""
+{" " * ((self.width // 2) - 10)}      GAME OVER!
+
 {" " * ((self.width // 2) - 10)}⣿⣿⣿⠟⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢋⣩⣉⢻⣿
 {" " * ((self.width // 2) - 10)}⣿⣿⣿⠀⣿⣶⣕⣈⠹⠿⠿⠿⠿⠟⠛⣛⢋⣰⠣⣿⣿⠀⣿
 {" " * ((self.width // 2) - 10)}⣿⣿⣿⡀⣿⣿⣿⣧⢻⣿⣶⣷⣿⣿⣿⣿⣿⣿⠿⠶⡝⠀⣿
@@ -104,6 +111,10 @@ class Game:
 {" " * ((self.width // 2) - 10)}⣿⣿⣿⠋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿
 {" " * ((self.width // 2) - 10)}⣿⣿⠋⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸
 {" " * ((self.width // 2) - 10)}⣿⠏⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸
+
+{" " * ((self.width // 2) - 10)}      SCORE: {self.score}
+
+{" " * ((self.width // 2) - 10)}   Press Esc to quit.
         """
 
         sys.stdout.write("\n" * (self.height // 3))
@@ -131,7 +142,14 @@ class Game:
             for j in range(self.width):
                 sys.stdout.write(self.cursor["RESET"]())
                 sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
-                if self.board[i][j]:
+
+                # display score
+                if i == 2 and (2 < j < self.width - 1):
+                    if j == self.width - (9 + len(str(self.score))):
+                        sys.stdout.write(f"SCORE: {self.score}")
+
+                # display entities
+                elif self.board[i][j]:
                     sys.stdout.write(
                         f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}"
                     )
