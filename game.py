@@ -117,7 +117,7 @@ class Game:
 {" " * ((self.width // 2) - 10)}   Press Esc to quit.
         """
 
-        sys.stdout.write("\n" * (self.height // 3))
+        sys.stdout.write("\n" * (self.height // 4))
         sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
         sys.stdout.write(message)
         sys.stdout.flush()

@@ -29,7 +29,7 @@ if __name__ == "__main__":
                 id=f"brick{i}{j}",
                 dimens=(BRICK_WIDTH, 1),
                 position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
-                health=randint(1, 4),
+                health=randint(0, 4),
             )
             game.register(brick)
 
