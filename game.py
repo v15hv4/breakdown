@@ -148,8 +148,8 @@ class Game:
         for entity in self.entities:
             y, x = entity.position
             entity.move(self)
-            for h in range(entity.dimens.h):
-                for w in range(entity.dimens.w):
+            for h in range(entity.dimens[1]):
+                for w in range(entity.dimens[0]):
                     self.board[x + h][y + w] = entity
 
         # render current game state

@@ -17,7 +17,7 @@ class Entity:
         color=Fore.WHITE,
     ) -> None:
         self.id = id
-        self.dimens = namedtuple("dimens", "w h")(*dimens)
+        self.dimens = np.array(dimens)
         self.position = np.array(position)
         self.velocity = np.array(velocity)
         self.sprite = sprite

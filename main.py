@@ -30,6 +30,7 @@ if __name__ == "__main__":
                 dimens=(BRICK_WIDTH, 1),
                 position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
                 health=BRICK_LAYOUT[j][i][0],
+                powerup=BRICK_LAYOUT[j][i][1],
             )
             game.register(brick)
 
