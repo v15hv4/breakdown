@@ -18,7 +18,7 @@ BRICK_LAYOUT = [  # format: (health, powerup)
     [(1, None), (2, None), (3, None), (0, None), (1, None), (3, None), (2, None), (1, None)],
     [(2, None), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
     [(3, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (3, None)],
-    [(1, "FB"), (1, "FB"), (1, "FB"), (1, "FB"), (1, "FB"), (1, "FB"), (1, "FB"), (1, "FB")],
+    [(4, None), (3, None), (2, None), (1, None), (1, None), (2, None), (3, None), (4, None)],
 ]
 
 # paddle properties

@@ -42,6 +42,7 @@ class Game:
         self.score = 0
         self.start_time = time.time()
         self.remaining_lives = 3
+        self.active_powerups = {}
 
         self.cursor = {
             "RESET": lambda: f"\x1b[H",
@@ -146,6 +147,12 @@ class Game:
         # update game state
         self.reset()
         for entity in self.entities:
+
+            # update powerup status
+            if hasattr(entity, "active_powerup"):
+                if entity.active_powerup.expires <= time.time():
+                    entity.active_powerup.deactivate(entity)
+
             y, x = entity.position
             entity.move(self)
             for h in range(entity.dimens[1]):

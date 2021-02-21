@@ -17,22 +17,22 @@ class Powerup(Entity):
             if collision:
                 if type(collision).__name__ == "Paddle":
                     self.activate(collision)
+                    game.active_powerups.append(self)
 
             self.position += self.velocity
         except:
             game.unregister(self)
 
     def activate(self, entity):
+        self.expires = time.time() + 4
         entity.dimens *= np.array([1, 1])
         entity.position *= np.array([1, 1])
         entity.velocity *= np.array([1, 1])
-        self.expires = time.time() + 5
+        entity.active_powerup = self
 
     def deactivate(self, entity):
-        entity.dimens /= np.array([1, 1])
-        entity.position /= np.array([1, 1])
-        entity.velocity /= np.array([1, 1])
         self.expires = np.inf
+        delattr(entity, "active_powerup")
 
 
 class ExpandPaddle(Powerup):
