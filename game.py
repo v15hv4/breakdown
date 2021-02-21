@@ -11,7 +11,7 @@ from entity import Entity
 
 
 def getchar():
-    # return a single character from standard input
+    # get currently pressed key
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
@@ -55,7 +55,7 @@ class Game:
         # handle game start signal
         signal.signal(signal.SIGUSR2, self.start_game)
 
-    def start_game(self, *args, **kwargs):
+    def start_game(self, *args, **kwargs) -> None:
         ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
         ball.reset()
 
@@ -73,7 +73,7 @@ class Game:
         else:
             self.over = True
 
-    def increment_score(self):
+    def increment_score(self) -> None:
         self.score += 100
 
     def reset(self) -> None:

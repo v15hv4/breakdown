@@ -18,7 +18,7 @@ class Brick(Entity):
         )
         self.health = health
 
-    def hit(self, game):
+    def hit(self, game) -> None:
         if self.health > 0:
             self.health -= 1
             if self.health > 0:
