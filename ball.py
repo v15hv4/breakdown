@@ -16,6 +16,10 @@ class Ball(Entity):
             color=Fore.LIGHTWHITE_EX,
         )
 
+    def reset(self) -> None:
+        self.position = np.array([20, 20])
+        self.velocity = np.array([1, 1])
+
     def move(self, game) -> None:
         try:
             collision = self.collides(game.board)

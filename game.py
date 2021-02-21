@@ -41,6 +41,7 @@ class Game:
         self.pressed = None
         self.score = 0
         self.start_time = time.time()
+        self.remaining_lives = 3
 
         self.cursor = {
             "RESET": lambda: f"\x1b[H",
@@ -55,12 +56,22 @@ class Game:
         signal.signal(signal.SIGUSR2, self.start_game)
 
     def start_game(self, *args, **kwargs):
-        self.start_time = time.time()
-        self.score = 0
-        self.over = False
+        ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
+        ball.reset()
+
+        if self.remaining_lives <= 0:
+            self.remaining_lives = 3
+            self.start_time = time.time()
+            self.score = 0
+            self.over = False
 
     def end_game(self, *args, **kwargs):
-        self.over = True
+        self.remaining_lives -= 1
+
+        if self.remaining_lives > 0:
+            self.start_game()
+        else:
+            self.over = True
 
     def increment_score(self):
         self.score += 100
@@ -148,9 +159,9 @@ class Game:
                 sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
 
                 if i == 2 and (1 < j < self.width - 1):
-                    # display time
+                    # display time & lives
                     if j == 3:
-                        sys.stdout.write(f"TIME: {current_time:05}")
+                        sys.stdout.write(f"TIME: {current_time:05}\tLIVES: {self.remaining_lives}")
 
                     # display score
                     if j == self.width - (9 + len(str(self.score))):
