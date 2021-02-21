@@ -51,9 +51,6 @@ if __name__ == "__main__":
         stdout.write("\033[?25l")
         stdout.flush()
 
-        # remove keyboard repeat delay
-        os.system("xset r rate 1")
-
         # play game
         game.play()
 
@@ -64,6 +61,3 @@ if __name__ == "__main__":
         # show cursor
         stdout.write("\033[?25h \x1b[H")
         stdout.flush()
-
-        # add back keyboard repeat delay
-        os.system("xset r rate 660 25")
