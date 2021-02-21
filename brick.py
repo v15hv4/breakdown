@@ -1,11 +1,11 @@
-from powerups import ExpandPaddle, ShrinkPaddle
+from powerups import ExpandPaddle, FastBall, ShrinkPaddle
 import numpy as np
 
 from entity import Entity
 from colorama import Fore
 
 colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED, Fore.WHITE]
-powermap = {"EP": ExpandPaddle, "SP": ShrinkPaddle}
+powermap = {"EP": ExpandPaddle, "SP": ShrinkPaddle, "FB": FastBall}
 
 
 class Brick(Entity):

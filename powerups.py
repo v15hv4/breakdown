@@ -59,3 +59,29 @@ class ShrinkPaddle(Powerup):
     def deactivate(self, entity):
         super().deactivate(entity)
         entity.dimens += np.array([4, 0])
+
+
+class FastBall(Powerup):
+    def __init__(self, position, sprite="F") -> None:
+        super().__init__(position=position, sprite=sprite)
+
+    def move(self, game) -> None:
+        try:
+            collision = self.collides(game.board)
+            if collision:
+                if type(collision).__name__ == "Paddle":
+                    balls = list(filter(lambda e: type(e).__name__ == "Ball", game.entities))
+                    for ball in balls:
+                        self.activate(ball)
+
+            self.position += self.velocity
+        except:
+            game.unregister(self)
+
+    def activate(self, entity):
+        super().activate(entity)
+        entity.velocity *= np.array([2, 2])
+
+    def deactivate(self, entity):
+        super().deactivate(entity)
+        entity.dimens /= np.array([2, 2])
