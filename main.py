@@ -23,13 +23,13 @@ if __name__ == "__main__":
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, FRAME_RATE)
 
     # bricks
-    for i in range(8):
-        for j in range(8):
+    for i in range(BRICK_LINE_COUNT):
+        for j in range(BRICK_LINE_COUNT):
             brick = Brick(
                 id=f"brick{i}{j}",
                 dimens=(BRICK_WIDTH, 1),
                 position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
-                health=randint(0, 4),
+                health=BRICK_LAYOUT[j][i][0],
             )
             game.register(brick)
 

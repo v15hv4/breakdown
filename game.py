@@ -40,6 +40,7 @@ class Game:
         self.over = False
         self.pressed = None
         self.score = 0
+        self.start_time = time.time()
 
         self.cursor = {
             "RESET": lambda: f"\x1b[H",
@@ -54,6 +55,7 @@ class Game:
         signal.signal(signal.SIGUSR2, self.start_game)
 
     def start_game(self, *args, **kwargs):
+        self.start_time = time.time()
         self.score = 0
         self.over = False
 
@@ -128,6 +130,8 @@ class Game:
             signal.raise_signal(2)
 
     def blit(self) -> None:
+        current_time = int(round(time.time() - self.start_time, 0))
+
         # update game state
         self.reset()
         for entity in self.entities:
@@ -143,8 +147,12 @@ class Game:
                 sys.stdout.write(self.cursor["RESET"]())
                 sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
 
-                # display score
-                if i == 2 and (2 < j < self.width - 1):
+                if i == 2 and (1 < j < self.width - 1):
+                    # display time
+                    if j == 3:
+                        sys.stdout.write(f"TIME: {current_time:05}")
+
+                    # display score
                     if j == self.width - (9 + len(str(self.score))):
                         sys.stdout.write(f"SCORE: {self.score}")
 

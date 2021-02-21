@@ -3,7 +3,7 @@ import numpy as np
 from entity import Entity
 from colorama import Fore
 
-colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED, Fore.BLACK, Fore.WHITE]
+colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED, Fore.WHITE]
 
 
 class Brick(Entity):
@@ -21,7 +21,8 @@ class Brick(Entity):
     def hit(self, game):
         if self.health > 0:
             self.health -= 1
-            self.color = colormap[self.health - 1]
+            if self.health > 0:
+                self.color = colormap[self.health - 1]
 
             # break da bricc
             if self.health <= 0:
