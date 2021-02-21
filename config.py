@@ -11,14 +11,14 @@ BRICK_LINE_COUNT = 8
 BRICK_WIDTH = SCREEN_WIDTH // 9
 BRICK_PADDING = (SCREEN_WIDTH - (BRICK_WIDTH * BRICK_LINE_COUNT)) // 2
 BRICK_LAYOUT = [  # format: (health, powerup)
-    [(4, None), (3, None), (2, None), (1, None), (1, None), (2, None), (3, None), (4, None)],
+    [(4, None), (3, None), (2, "SP"), (1, None), (1, None), (2, None), (3, None), (4, None)],
+    [(3, None), (4, "EP"), (3, None), (2, None), (2, None), (3, None), (4, "SP"), (3, None)],
+    [(2, None), (3, None), (4, None), (3, "FB"), (3, None), (4, None), (3, None), (2, None)],
+    [(1, None), (2, None), (3, None), (1, None), (0, "EP"), (3, None), (2, None), (1, None)],
+    [(1, None), (2, None), (3, None), (0, None), (1, None), (3, None), (2, None), (1, "FB")],
+    [(2, "EP"), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
     [(3, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (3, None)],
-    [(2, None), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
-    [(1, None), (2, None), (3, None), (1, None), (0, None), (3, None), (2, None), (1, None)],
-    [(1, None), (2, None), (3, None), (0, None), (1, None), (3, None), (2, None), (1, None)],
-    [(2, None), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
-    [(3, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (3, None)],
-    [(4, None), (3, None), (2, None), (1, None), (1, None), (2, None), (3, None), (4, None)],
+    [(4, None), (3, "FB"), (2, None), (1, "EP"), (1, None), (2, "SP"), (3, None), (4, None)],
 ]
 
 # paddle properties
