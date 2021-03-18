@@ -1,10 +1,11 @@
+import time
 import signal
 import numpy as np
 
 from entity import Entity
 from colorama import Fore
 
-from config import BALL_POSITION, BALL_VELOCITY
+from config import BALL_POSITION, BALL_VELOCITY, FALLING_THRESHOLD
 
 
 class Ball(Entity):
@@ -47,6 +48,18 @@ class Ball(Entity):
                         self.velocity = np.array([3, -1])
                     else:
                         self.velocity *= np.array([1, -1])
+
+                    # make bricks fall after each hit after crossing threshold
+                    current_time = int(round(time.time() - game.start_time, 0))
+                    if current_time > FALLING_THRESHOLD:
+                        for entity in game.entities:
+                            if type(entity).__name__ == "Brick":
+                                entity.position += np.array([0, 1])
+
+                                # implement game over when bricks hit paddle
+                                if entity.position[1] > game.height - 3:
+                                    game.remaining_lives = 1
+                                    signal.raise_signal(10)
 
                 else:
                     available = self.available(game.board)

@@ -43,7 +43,7 @@ class Game:
         self.entities = []
         self.board = []
         self.start_time = time.time()
-        self.remaining_lives = 3
+        self.remaining_lives = 99
         self.score = 0
         self.pressed = None
         self.game_over = False
@@ -253,6 +253,14 @@ class Game:
                 sys.stdout.write(self.cursor["RESET"]())
                 sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
 
+                # display hint
+                # if not self.playing and not self.game_over:
+                #     if i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
+                #         if j == ((self.width // 2) - 6):
+                #             sys.stdout.write("Press W to start.")
+                #         else:
+                #             sys.stdout.write(" ")
+
                 if i == 2 and (1 < j < self.width - 1):
                     # display time & lives
                     if j == 3:
@@ -262,21 +270,21 @@ class Game:
                     if j == self.width - (20 + len(str(self.score))):
                         sys.stdout.write(f"LEVEL: {self.level}   SCORE: {self.score}")
 
-                # display hint
-                elif i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
-                    if not self.playing and not self.game_over:
-                        if j == ((self.width // 2) - 7):
-                            sys.stdout.write("Press W to start.")
-                    else:
-                        sys.stdout.write(" ")
-
                 # display entities
                 elif self.board[i][j]:
                     sys.stdout.write(
                         f"{self.board[i][j].color}{self.board[i][j].sprite}{Fore.RESET}"
                     )
+
                 else:
                     sys.stdout.write(" ")
+
+                if not self.playing and not self.game_over:
+                    sys.stdout.write(self.cursor["RESET"]())
+                    sys.stdout.write(
+                        f"{self.cursor['DOWN'](self.height // 2)}{self.cursor['RIGHT']((self.width // 2) - 6)}"
+                    )
+                    sys.stdout.write("Press W to start.")
 
             sys.stdout.flush()
         sys.stdout.write(self.cursor["RESET"]())
