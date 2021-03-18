@@ -56,12 +56,15 @@ class Game:
         # handle level start signal
         signal.signal(signal.SIGUSR2, self.start_level)
 
+        # handle level skip signal
+        signal.signal(signal.SIGTRAP, self.next_level)
+
     def set_up_level(self, level) -> None:
         if level == 0:
             return
 
         self.entities = []
-        BRICK_LAYOUT = [LEVEL_LAYOUT_1, LEVEL_LAYOUT_2, LEVEL_LAYOUT_2][level - 1]
+        BRICK_LAYOUT = [LEVEL_LAYOUT_1, LEVEL_LAYOUT_2, LEVEL_LAYOUT_3][level - 1]
 
         # bricks
         for i in range(BRICK_LINE_COUNT):
@@ -101,6 +104,11 @@ class Game:
             ball.start()
             self.start_time = time.time()
             self.playing = True
+
+    def next_level(self, *args, **kwargs) -> None:
+        self.level = (self.level + 1) % 4
+        self.end_level()
+        self.set_up_level(self.level)
 
     def end_level(self) -> None:
         ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
@@ -277,14 +285,16 @@ class Game:
         sys.stdout.write(self.cursor["RESET"]())
 
         if not level_incomplete:
-            self.level = (self.level + 1) % 4
-            self.end_level()
-            self.set_up_level(self.level)
+            self.next_level()
             return
 
         # start level
         if self.pressed == "w":
             signal.raise_signal(12)
+
+        # skip level backdoor
+        if self.pressed == "l":
+            signal.raise_signal(5)
 
     def play(self) -> None:
         interval = 1 / self.framerate

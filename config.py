@@ -41,17 +41,6 @@ LEVEL_LAYOUT_3 = [  # format: (health, powerup)
     [(0, None), None, None, (0, None), (0, None), None, None, (0, None)],
 ]
 
-# LEVEL_LAYOUT_1 = LEVEL_LAYOUT_2 = LEVEL_LAYOUT_3 = [  # format: (health, powerup)
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, None, None, None],
-#     [None, None, None, None, None, (1, None), None, None],
-# ]
-
 FALLING_THRESHOLD = 20
 
 
