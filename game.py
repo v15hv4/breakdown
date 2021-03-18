@@ -249,11 +249,11 @@ class Game:
                 if i == 2 and (1 < j < self.width - 1):
                     # display time & lives
                     if j == 3:
-                        sys.stdout.write(f"TIME: {current_time:05}\tLIVES: {self.remaining_lives}")
+                        sys.stdout.write(f"TIME: {current_time:05}   LIVES: {self.remaining_lives}")
 
-                    # display score
-                    if j == self.width - (9 + len(str(self.score))):
-                        sys.stdout.write(f"SCORE: {self.score}")
+                    # display level & score
+                    if j == self.width - (20 + len(str(self.score))):
+                        sys.stdout.write(f"LEVEL: {self.level}   SCORE: {self.score}")
 
                 # display hint
                 elif i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
