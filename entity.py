@@ -1,9 +1,7 @@
-import numpy as np
+import sys, numpy as np
 
 from collections import namedtuple
 from colorama import Fore
-
-import sys
 
 
 class Entity:

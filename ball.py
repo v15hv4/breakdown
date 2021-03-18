@@ -1,9 +1,7 @@
-import time
-import signal
-import numpy as np
+import time, signal, numpy as np
 
-from entity import Entity
 from colorama import Fore
+from entity import Entity
 
 from config import BALL_POSITION, BALL_VELOCITY, FALLING_THRESHOLD
 

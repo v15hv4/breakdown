@@ -1,8 +1,9 @@
-from powerups import ExpandPaddle, FastBall, ShrinkPaddle
 import numpy as np
 
-from entity import Entity
 from colorama import Fore
+from entity import Entity
+
+from powerups import ExpandPaddle, FastBall, ShrinkPaddle
 
 colormap = [Fore.BLUE, Fore.GREEN, Fore.YELLOW, Fore.RED, Fore.WHITE]
 powermap = {"EP": ExpandPaddle, "SP": ShrinkPaddle, "FB": FastBall}

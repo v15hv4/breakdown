@@ -1,5 +1,6 @@
 import os
 
+# game framerate
 FRAME_RATE = 22
 
 # screen properties

@@ -1,7 +1,7 @@
 import numpy as np
 
-from entity import Entity
 from colorama import Fore
+from entity import Entity
 
 
 class Paddle(Entity):

@@ -1,13 +1,6 @@
-import os
-import sys
-import tty
-import time
-import random
-import signal
-import termios
+import os, sys, tty, time, random, signal, termios
 
 from colorama import Fore, Back
-
 from entity import Entity
 from brick import Brick
 from paddle import Paddle
