@@ -4,21 +4,26 @@ import numpy as np
 from entity import Entity
 from colorama import Fore
 
+from config import BALL_POSITION, BALL_VELOCITY
+
 
 class Ball(Entity):
-    def __init__(self, position=(1, 1), velocity=(1, 1)) -> None:
+    def __init__(self) -> None:
         super().__init__(
             id="ball",
             dimens=(1, 1),
-            position=position,
-            velocity=velocity,
+            position=(20, 20),
+            velocity=(0, 0),
             sprite="⬤",
             color=Fore.LIGHTWHITE_EX,
         )
 
     def reset(self) -> None:
-        self.position = np.array([20, 20])
-        self.velocity = np.array([1, 1])
+        self.position = np.array(BALL_POSITION)
+        self.velocity = np.array([0, 0])
+
+    def start(self) -> None:
+        self.velocity = np.array(BALL_VELOCITY)
 
     def move(self, game) -> None:
         try:

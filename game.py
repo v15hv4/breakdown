@@ -37,12 +37,14 @@ class Game:
         self.framerate = framerate
         self.entities = []
         self.board = []
-        self.over = False
-        self.pressed = None
-        self.score = 0
         self.start_time = time.time()
         self.remaining_lives = 3
         self.active_powerups = {}
+        self.score = 0
+        self.pressed = None
+        self.game_over = False
+        self.playing = False
+        self.level = 1
 
         self.cursor = {
             "RESET": lambda: f"\x1b[H",
@@ -53,18 +55,27 @@ class Game:
         # handle game over signal
         signal.signal(signal.SIGUSR1, self.end_game)
 
-        # handle game start signal
-        signal.signal(signal.SIGUSR2, self.start_game)
+        # handle level start signal
+        signal.signal(signal.SIGUSR2, self.start_level)
 
     def start_game(self, *args, **kwargs) -> None:
-        ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
-        ball.reset()
-
         if self.remaining_lives <= 0:
             self.remaining_lives = 3
-            self.start_time = time.time()
             self.score = 0
-            self.over = False
+            self.game_over = False
+
+    def start_level(self, *args, **kwargs) -> None:
+        if not self.playing:
+            ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
+            ball.reset()
+            ball.start()
+            self.start_time = time.time()
+            self.playing = True
+
+    def end_level(self) -> None:
+        ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
+        ball.reset()
+        self.playing = False
 
     def end_game(self, *args, **kwargs):
         self.remaining_lives -= 1
@@ -72,7 +83,9 @@ class Game:
         if self.remaining_lives > 0:
             self.start_game()
         else:
-            self.over = True
+            self.game_over = True
+
+        self.end_level()
 
     def increment_score(self) -> None:
         self.score += 100
@@ -106,6 +119,42 @@ class Game:
 
     def unregister(self, entity) -> None:
         self.entities = list(filter(lambda e: e.id != entity.id, self.entities))
+
+    def blit_completed(self) -> None:
+        os.system("clear")
+        message = f"""
+{" " * ((self.width // 2) - 10)}      POGCHAMP!
+
+{" " * ((self.width // 2) - 10)}         ⢀⣀⣀⣄⣶⡶⣦⣀       
+{" " * ((self.width // 2) - 10)}    ⢠⡦⡟⠻⠛⠙⠉⠈⠄⠄⠈⠻⠛⣾⣦⣤⣀  
+{" " * ((self.width // 2) - 10)}  ⣰⡿⠟⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠋⠽⢿⣧ 
+{" " * ((self.width // 2) - 10)}⢀⣴⠞⠂⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢼⠆ 
+{" " * ((self.width // 2) - 10)}⣼⠇⠄⠄⠄⠄⠄⠄⠄⠄⣀⣠⣤⣶⣿⣶⣦⣤⣀⠄⣻⡃ 
+{" " * ((self.width // 2) - 10)}⡿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⢸⣧ 
+{" " * ((self.width // 2) - 10)}⢿⡀⠄⠄⠄⠄⠄⠄⠄⢠⣾⣿⣿⣋⣩⣭⣝⣿⣿⠛⢰⡇ 
+{" " * ((self.width // 2) - 10)}⢸⡇⠄⠄⢀⠄⠄⠄⠄⣾⣿⣿⣿⣟⣯⠉⢉⣿⠋⣟⢻⡇ 
+{" " * ((self.width // 2) - 10)} ⢹⡀⢳⡗⠂⣠⠄⠄⣿⣿⣿⣿⣿⣭⣽⣿⣿⣿⣉⣸⠇ 
+{" " * ((self.width // 2) - 10)} ⠈⣷⠄⢳⣷⣿⠄⠄⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇ 
+{" " * ((self.width // 2) - 10)}  ⠘⣧⠄⠈⠙⠄⠄⠄⠉⠙⠛⠛⣿⣿⣷⣤⣄⢿⡿⠃ 
+{" " * ((self.width // 2) - 10)}   ⠉⠳⣄⡀⠄⠄⠄⢢⣦⣾⣿⠿⠿⠛⠉⢉⣽⠇  
+{" " * ((self.width // 2) - 10)}     ⠘⠿⣄⢀⠄⣀⣝⢻⣿⡿⠒⣀⣀⣸⠁   
+{" " * ((self.width // 2) - 10)}       ⠈⠳⣤⠁⠙⠎⢻⣄⠄⠄⣸⠋    
+{" " * ((self.width // 2) - 10)}         ⠈⠙⠶⢦⣄⣀⣣⠴⠃     
+
+{" " * ((self.width // 2) - 10)}      SCORE: {self.score}
+
+{" " * ((self.width // 2) - 10)}   Press Esc to quit.
+        """
+
+        sys.stdout.write("\n" * (self.height // 4))
+        sys.stdout.write(" " * ((self.width // 2) - (len(message) // 2)))
+        sys.stdout.write(message)
+        sys.stdout.flush()
+        sys.stdout.write(self.cursor["RESET"]())
+
+        # exit game
+        if self.pressed == "\x1b":
+            signal.raise_signal(2)
 
     def blit_gameover(self) -> None:
         os.system("clear")
@@ -184,6 +233,10 @@ class Game:
             sys.stdout.flush()
         sys.stdout.write(self.cursor["RESET"]())
 
+        # start level
+        if self.pressed == "p":
+            signal.raise_signal(12)
+
     def play(self) -> None:
         interval = 1 / self.framerate
         os.system("clear")
@@ -192,8 +245,9 @@ class Game:
             try:
                 signal.setitimer(signal.ITIMER_REAL, interval)
                 signal.signal(signal.SIGALRM, timeoutException)
-                if self.over:
-                    self.blit_gameover()
+                if self.game_over:
+                    # self.blit_gameover()
+                    self.blit_completed()
                 else:
                     self.blit()
                 self.pressed = getchar()

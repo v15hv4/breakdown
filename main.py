@@ -25,14 +25,15 @@ if __name__ == "__main__":
     # bricks
     for i in range(BRICK_LINE_COUNT):
         for j in range(BRICK_LINE_COUNT):
-            brick = Brick(
-                id=f"brick{i}{j}",
-                dimens=(BRICK_WIDTH, 1),
-                position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
-                health=BRICK_LAYOUT[j][i][0],
-                powerup=BRICK_LAYOUT[j][i][1],
-            )
-            game.register(brick)
+            if BRICK_LAYOUT[j][i]:
+                brick = Brick(
+                    id=f"brick{i}{j}",
+                    dimens=(BRICK_WIDTH, 1),
+                    position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
+                    health=BRICK_LAYOUT[j][i][0],
+                    powerup=BRICK_LAYOUT[j][i][1],
+                )
+                game.register(brick)
 
     # paddle
     paddle = Paddle(
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     game.register(paddle)
 
     # ball
-    ball = Ball(position=BALL_POSITION, velocity=BALL_VELOCITY)
+    ball = Ball()
     game.register(ball)
 
     try:
