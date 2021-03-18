@@ -8,6 +8,11 @@ import tty
 from colorama import Fore, Back
 
 from entity import Entity
+from brick import Brick
+from paddle import Paddle
+from ball import Ball
+
+from config import *
 
 
 def getchar():
@@ -57,6 +62,33 @@ class Game:
 
         # handle level start signal
         signal.signal(signal.SIGUSR2, self.start_level)
+
+    def set_up_level(self, level) -> None:
+        BRICK_LAYOUT = [LEVEL_LAYOUT_1, LEVEL_LAYOUT_2, LEVEL_LAYOUT_2][level - 1]
+
+        # bricks
+        for i in range(BRICK_LINE_COUNT):
+            for j in range(BRICK_LINE_COUNT):
+                if BRICK_LAYOUT[j][i]:
+                    brick = Brick(
+                        id=f"brick{i}{j}",
+                        dimens=(BRICK_WIDTH, 1),
+                        position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
+                        health=BRICK_LAYOUT[j][i][0],
+                        powerup=BRICK_LAYOUT[j][i][1],
+                    )
+                    self.register(brick)
+
+        # paddle
+        paddle = Paddle(
+            dimens=(PADDLE_WIDTH, 1),
+            position=((self.width // 2) - (PADDLE_WIDTH // 2), self.height - 2),
+        )
+        self.register(paddle)
+
+        # ball
+        ball = Ball()
+        self.register(ball)
 
     def start_game(self, *args, **kwargs) -> None:
         if self.remaining_lives <= 0:
@@ -223,6 +255,14 @@ class Game:
                     if j == self.width - (9 + len(str(self.score))):
                         sys.stdout.write(f"SCORE: {self.score}")
 
+                # display hint
+                elif i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
+                    if not self.playing and not self.game_over:
+                        if j == ((self.width // 2) - 14):
+                            sys.stdout.write("Press W to start playing.")
+                    else:
+                        sys.stdout.write(" ")
+
                 # display entities
                 elif self.board[i][j]:
                     sys.stdout.write(
@@ -230,24 +270,28 @@ class Game:
                     )
                 else:
                     sys.stdout.write(" ")
+
             sys.stdout.flush()
         sys.stdout.write(self.cursor["RESET"]())
 
         # start level
-        if self.pressed == "p":
+        if self.pressed == "w":
             signal.raise_signal(12)
 
     def play(self) -> None:
         interval = 1 / self.framerate
         os.system("clear")
         last_pressed = 0
+
+        if not self.playing:
+            self.set_up_level(self.level)
+
         while True:
             try:
                 signal.setitimer(signal.ITIMER_REAL, interval)
                 signal.signal(signal.SIGALRM, timeoutException)
                 if self.game_over:
-                    # self.blit_gameover()
-                    self.blit_completed()
+                    self.blit_gameover()
                 else:
                     self.blit()
                 self.pressed = getchar()

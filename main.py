@@ -6,13 +6,9 @@ from sys import stdout
 
 from colorama import Fore, init, deinit
 
-from config import *
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, FRAME_RATE
 
-from ball import Ball
-from brick import Brick
-from entity import Entity
 from game import Game
-from paddle import Paddle
 
 
 if __name__ == "__main__":
@@ -21,30 +17,6 @@ if __name__ == "__main__":
 
     # initialize game
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, FRAME_RATE)
-
-    # bricks
-    for i in range(BRICK_LINE_COUNT):
-        for j in range(BRICK_LINE_COUNT):
-            if BRICK_LAYOUT[j][i]:
-                brick = Brick(
-                    id=f"brick{i}{j}",
-                    dimens=(BRICK_WIDTH, 1),
-                    position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
-                    health=BRICK_LAYOUT[j][i][0],
-                    powerup=BRICK_LAYOUT[j][i][1],
-                )
-                game.register(brick)
-
-    # paddle
-    paddle = Paddle(
-        dimens=(PADDLE_WIDTH, 1),
-        position=((game.width // 2) - (PADDLE_WIDTH // 2), game.height - 2),
-    )
-    game.register(paddle)
-
-    # ball
-    ball = Ball()
-    game.register(ball)
 
     try:
         signal.signal(signal.SIGINT, lambda *a: 1 / 0)
