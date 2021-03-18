@@ -44,7 +44,6 @@ class Game:
         self.board = []
         self.start_time = time.time()
         self.remaining_lives = 3
-        self.active_powerups = {}
         self.score = 0
         self.pressed = None
         self.game_over = False
@@ -64,6 +63,10 @@ class Game:
         signal.signal(signal.SIGUSR2, self.start_level)
 
     def set_up_level(self, level) -> None:
+        if level == 0:
+            return
+
+        self.entities = []
         BRICK_LAYOUT = [LEVEL_LAYOUT_1, LEVEL_LAYOUT_2, LEVEL_LAYOUT_2][level - 1]
 
         # bricks
@@ -155,27 +158,27 @@ class Game:
     def blit_completed(self) -> None:
         os.system("clear")
         message = f"""
-{" " * ((self.width // 2) - 10)}      POGCHAMP!
+{" " * ((self.width // 2) - 8)}      YOU WIN!
 
-{" " * ((self.width // 2) - 10)}         ⢀⣀⣀⣄⣶⡶⣦⣀       
-{" " * ((self.width // 2) - 10)}    ⢠⡦⡟⠻⠛⠙⠉⠈⠄⠄⠈⠻⠛⣾⣦⣤⣀  
-{" " * ((self.width // 2) - 10)}  ⣰⡿⠟⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠋⠽⢿⣧ 
-{" " * ((self.width // 2) - 10)}⢀⣴⠞⠂⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢼⠆ 
-{" " * ((self.width // 2) - 10)}⣼⠇⠄⠄⠄⠄⠄⠄⠄⠄⣀⣠⣤⣶⣿⣶⣦⣤⣀⠄⣻⡃ 
-{" " * ((self.width // 2) - 10)}⡿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⢸⣧ 
-{" " * ((self.width // 2) - 10)}⢿⡀⠄⠄⠄⠄⠄⠄⠄⢠⣾⣿⣿⣋⣩⣭⣝⣿⣿⠛⢰⡇ 
-{" " * ((self.width // 2) - 10)}⢸⡇⠄⠄⢀⠄⠄⠄⠄⣾⣿⣿⣿⣟⣯⠉⢉⣿⠋⣟⢻⡇ 
-{" " * ((self.width // 2) - 10)} ⢹⡀⢳⡗⠂⣠⠄⠄⣿⣿⣿⣿⣿⣭⣽⣿⣿⣿⣉⣸⠇ 
-{" " * ((self.width // 2) - 10)} ⠈⣷⠄⢳⣷⣿⠄⠄⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇ 
-{" " * ((self.width // 2) - 10)}  ⠘⣧⠄⠈⠙⠄⠄⠄⠉⠙⠛⠛⣿⣿⣷⣤⣄⢿⡿⠃ 
-{" " * ((self.width // 2) - 10)}   ⠉⠳⣄⡀⠄⠄⠄⢢⣦⣾⣿⠿⠿⠛⠉⢉⣽⠇  
-{" " * ((self.width // 2) - 10)}     ⠘⠿⣄⢀⠄⣀⣝⢻⣿⡿⠒⣀⣀⣸⠁   
-{" " * ((self.width // 2) - 10)}       ⠈⠳⣤⠁⠙⠎⢻⣄⠄⠄⣸⠋    
-{" " * ((self.width // 2) - 10)}         ⠈⠙⠶⢦⣄⣀⣣⠴⠃     
+{" " * ((self.width // 2) - 8)}         ⢀⣀⣀⣄⣶⡶⣦⣀       
+{" " * ((self.width // 2) - 8)}    ⢠⡦⡟⠻⠛⠙⠉⠈⠄⠄⠈⠻⠛⣾⣦⣤⣀  
+{" " * ((self.width // 2) - 8)}  ⣰⡿⠟⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠋⠽⢿⣧ 
+{" " * ((self.width // 2) - 8)}⢀⣴⠞⠂⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢼⠆ 
+{" " * ((self.width // 2) - 8)}⣼⠇⠄⠄⠄⠄⠄⠄⠄⠄⣀⣠⣤⣶⣿⣶⣦⣤⣀⠄⣻⡃ 
+{" " * ((self.width // 2) - 8)}⡿⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⢸⣧ 
+{" " * ((self.width // 2) - 8)}⢿⡀⠄⠄⠄⠄⠄⠄⠄⢠⣾⣿⣿⣋⣩⣭⣝⣿⣿⠛⢰⡇ 
+{" " * ((self.width // 2) - 8)}⢸⡇⠄⠄⢀⠄⠄⠄⠄⣾⣿⣿⣿⣟⣯⠉⢉⣿⠋⣟⢻⡇ 
+{" " * ((self.width // 2) - 8)} ⢹⡀⢳⡗⠂⣠⠄⠄⣿⣿⣿⣿⣿⣭⣽⣿⣿⣿⣉⣸⠇ 
+{" " * ((self.width // 2) - 8)} ⠈⣷⠄⢳⣷⣿⠄⠄⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇ 
+{" " * ((self.width // 2) - 8)}  ⠘⣧⠄⠈⠙⠄⠄⠄⠉⠙⠛⠛⣿⣿⣷⣤⣄⢿⡿⠃ 
+{" " * ((self.width // 2) - 8)}   ⠉⠳⣄⡀⠄⠄⠄⢢⣦⣾⣿⠿⠿⠛⠉⢉⣽⠇  
+{" " * ((self.width // 2) - 8)}     ⠘⠿⣄⢀⠄⣀⣝⢻⣿⡿⠒⣀⣀⣸⠁   
+{" " * ((self.width // 2) - 8)}       ⠈⠳⣤⠁⠙⠎⢻⣄⠄⠄⣸⠋    
+{" " * ((self.width // 2) - 8)}         ⠈⠙⠶⢦⣄⣀⣣⠴⠃     
 
-{" " * ((self.width // 2) - 10)}      SCORE: {self.score}
+{" " * ((self.width // 2) - 8)}      SCORE: {self.score}
 
-{" " * ((self.width // 2) - 10)}   Press Esc to quit.
+{" " * ((self.width // 2) - 8)}   Press Esc to quit.
         """
 
         sys.stdout.write("\n" * (self.height // 4))
@@ -226,12 +229,16 @@ class Game:
         current_time = int(round(time.time() - self.start_time, 0))
 
         # update game state
+        level_incomplete = 0
         self.reset()
         for entity in self.entities:
+            # check for level clearance
+            if type(entity).__name__ == "Brick" and entity.health > 0:
+                level_incomplete += 1
 
             # update powerup status
             if hasattr(entity, "active_powerup"):
-                if entity.active_powerup.expires <= time.time():
+                if (entity.active_powerup.expires <= time.time()) or not level_incomplete:
                     entity.active_powerup.deactivate(entity)
 
             y, x = entity.position
@@ -258,8 +265,8 @@ class Game:
                 # display hint
                 elif i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
                     if not self.playing and not self.game_over:
-                        if j == ((self.width // 2) - 14):
-                            sys.stdout.write("Press W to start playing.")
+                        if j == ((self.width // 2) - 7):
+                            sys.stdout.write("Press W to start.")
                     else:
                         sys.stdout.write(" ")
 
@@ -273,6 +280,12 @@ class Game:
 
             sys.stdout.flush()
         sys.stdout.write(self.cursor["RESET"]())
+
+        if not level_incomplete:
+            self.level = (self.level + 1) % 4
+            self.end_level()
+            self.set_up_level(self.level)
+            return
 
         # start level
         if self.pressed == "w":
@@ -292,6 +305,8 @@ class Game:
                 signal.signal(signal.SIGALRM, timeoutException)
                 if self.game_over:
                     self.blit_gameover()
+                elif self.level == 0:
+                    self.blit_completed()
                 else:
                     self.blit()
                 self.pressed = getchar()
