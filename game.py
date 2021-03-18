@@ -76,7 +76,8 @@ class Game:
                         position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
                         health=BRICK_LAYOUT[j][i][0],
                         powerup=BRICK_LAYOUT[j][i][1],
-                        rainbow=random.randint(0, 9) < BRICK_RAINBOW_CHANCE,
+                        rainbow=(BRICK_LAYOUT[j][i][0] > 0)
+                        and (random.randint(0, 9) < BRICK_RAINBOW_CHANCE),
                     )
                     self.register(brick)
 
