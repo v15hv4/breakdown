@@ -1,9 +1,10 @@
 import os
-import signal
 import sys
-import termios
-import time
 import tty
+import time
+import random
+import signal
+import termios
 
 from colorama import Fore, Back
 
@@ -43,7 +44,7 @@ class Game:
         self.entities = []
         self.board = []
         self.start_time = time.time()
-        self.remaining_lives = 99
+        self.remaining_lives = 3
         self.score = 0
         self.pressed = None
         self.game_over = False
@@ -79,6 +80,7 @@ class Game:
                         position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
                         health=BRICK_LAYOUT[j][i][0],
                         powerup=BRICK_LAYOUT[j][i][1],
+                        rainbow=random.randint(0, 9) < BRICK_RAINBOW_CHANCE,
                     )
                     self.register(brick)
 
@@ -252,14 +254,6 @@ class Game:
             for j in range(self.width):
                 sys.stdout.write(self.cursor["RESET"]())
                 sys.stdout.write(f"{self.cursor['DOWN'](i - 1)}{self.cursor['RIGHT'](j - 1)}")
-
-                # display hint
-                # if not self.playing and not self.game_over:
-                #     if i == (self.height // 2) and ((self.width // 2) - 14 <= j < self.width - 1):
-                #         if j == ((self.width // 2) - 6):
-                #             sys.stdout.write("Press W to start.")
-                #         else:
-                #             sys.stdout.write(" ")
 
                 if i == 2 and (1 < j < self.width - 1):
                     # display time & lives
