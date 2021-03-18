@@ -3,7 +3,7 @@ import time, signal, numpy as np
 from colorama import Fore
 from entity import Entity
 
-from config import BALL_POSITION, BALL_VELOCITY, FALLING_THRESHOLD
+from config import BALL_POSITION, BALL_VELOCITY, FALLING_THRESHOLD, SOUND_ENABLED
 
 
 class Ball(Entity):
@@ -28,6 +28,9 @@ class Ball(Entity):
         try:
             collision = self.collides(game.board)
             if collision:
+                # make collision sound
+                if SOUND_ENABLED:
+                    print("\a")
 
                 # if collided with a brick, hit it
                 if type(collision).__name__ == "Brick":

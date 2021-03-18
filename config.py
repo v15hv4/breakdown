@@ -57,3 +57,6 @@ PADDLE_VELOCITY = (PADDLE_WIDTH // 8, 0)
 # ball properties
 BALL_POSITION = (20, 20)
 BALL_VELOCITY = (1, 1)
+
+# sound
+SOUND_ENABLED = True
