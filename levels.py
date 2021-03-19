@@ -15,10 +15,10 @@ LEVEL_1 = Level(
     layout=[
         [(4, None), (3, None), (2, "SP"), (1, None), (1, None), (2, None), (3, None), (4, None)],
         [(3, None), (4, "EP"), (3, None), (2, None), (2, None), (3, None), (4, "SP"), (3, None)],
-        [(2, None), (3, None), (4, None), (3, "EP"), (3, None), (4, None), (3, None), (2, None)],
+        [(2, None), (3, None), (4, None), (3, "FB"), (3, None), (4, None), (3, None), (2, None)],
         [(1, None), (2, None), (3, None), (1, None), (0, "EP"), (3, None), (2, None), (1, None)],
         [(1, None), (2, None), (3, None), (0, None), (1, None), (3, None), (2, None), (1, "EP")],
-        [(2, "EP"), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
+        [(2, "FB"), (3, None), (4, None), (3, None), (3, None), (4, None), (3, None), (2, None)],
         [(3, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (3, None)],
         [(4, None), (3, "EP"), (2, None), (1, "EP"), (1, None), (2, "SP"), (3, None), (4, None)],
     ],
@@ -26,14 +26,14 @@ LEVEL_1 = Level(
 
 LEVEL_2 = Level(
     layout=[
-        [(4, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (4, None)],
-        [(4, None), (3, None), (3, None), (2, None), (2, None), (3, None), (3, None), (4, None)],
-        [(3, None), (3, None), (0, None), (1, None), (1, None), (0, None), (3, None), (3, None)],
+        [(4, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (4, "FB")],
+        [(4, None), (3, None), (3, None), (2, None), (2, "EP"), (3, None), (3, None), (4, None)],
+        [(3, None), (3, None), (0, None), (1, None), (1, None), (0, None), (3, "SP"), (3, None)],
+        [(2, "EP"), (2, None), (1, None), (1, "FB"), (1, None), (1, None), (2, None), (2, None)],
         [(2, None), (2, None), (1, None), (1, None), (1, None), (1, None), (2, None), (2, None)],
-        [(2, None), (2, None), (1, None), (1, None), (1, None), (1, None), (2, None), (2, None)],
-        [(3, None), (3, None), (0, None), (1, None), (1, None), (0, None), (3, None), (3, None)],
-        [(4, None), (3, None), (3, None), (2, None), (2, None), (3, None), (3, None), (4, None)],
-        [(4, None), (4, None), (3, None), (2, None), (2, None), (3, None), (4, None), (4, None)],
+        [(3, None), (3, None), (0, "SP"), (1, None), (1, None), (0, None), (3, None), (3, None)],
+        [(4, None), (3, None), (3, None), (2, None), (2, None), (3, None), (3, "EP"), (4, None)],
+        [(4, None), (4, "EP"), (3, None), (2, None), (2, None), (3, None), (4, None), (4, None)],
     ],
 )
 

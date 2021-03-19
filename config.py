@@ -1,7 +1,7 @@
 import os
 
 # game framerate
-FRAME_RATE = 22
+FRAME_RATE = 20
 
 # screen properties
 SCREEN_WIDTH = os.get_terminal_size().columns + 1
@@ -25,4 +25,4 @@ BALL_POSITION = (20, 20)
 BALL_VELOCITY = (1, 1)
 
 # sound
-SOUND_ENABLED = False
+SOUND_ENABLED = True

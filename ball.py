@@ -3,28 +3,40 @@ import time, signal, numpy as np
 from colorama import Fore
 from entity import Entity
 
-from config import BALL_POSITION, BALL_VELOCITY, FALLING_THRESHOLD, SOUND_ENABLED
+from config import BALL_VELOCITY, FALLING_THRESHOLD, SOUND_ENABLED
 
 
 class Ball(Entity):
-    def __init__(self) -> None:
+    def __init__(self, start_position=(20, 20)) -> None:
         super().__init__(
             id="ball",
             dimens=(1, 1),
-            position=(20, 20),
+            position=start_position,
             velocity=(0, 0),
             sprite="⬤",
             color=Fore.LIGHTWHITE_EX,
         )
+        self.start_position = start_position
 
-    def reset(self) -> None:
-        self.position = np.array(BALL_POSITION)
+    def reset(self, game) -> None:
+        paddle = list(filter(lambda e: type(e).__name__ == "Paddle", game.entities))[0]
+        self.position = np.array(
+            [paddle.position[0] + paddle.dimens[0] // 2, self.start_position[1]]
+        )
         self.velocity = np.array([0, 0])
 
     def start(self) -> None:
         self.velocity = np.array(BALL_VELOCITY)
 
     def move(self, game) -> None:
+        if not game.playing:
+            try:
+                paddle = list(filter(lambda e: type(e).__name__ == "Paddle", game.entities))[0]
+                self.position = np.array(
+                    [paddle.position[0] + paddle.dimens[0] // 2, self.start_position[1]]
+                )
+            except:
+                pass
         try:
             collision = self.collides(game.board)
             if collision:

@@ -92,7 +92,9 @@ class Game:
         self.register(paddle)
 
         # ball
-        ball = Ball()
+        ball = Ball(
+            start_position=((self.width // 2), self.height - 3),
+        )
         self.register(ball)
 
     def start_game(self, *args, **kwargs) -> None:
@@ -104,7 +106,7 @@ class Game:
     def start_level(self, *args, **kwargs) -> None:
         if not self.playing:
             ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
-            ball.reset()
+            ball.reset(self)
             ball.start()
             self.start_time = time.time()
             self.playing = True
@@ -116,7 +118,7 @@ class Game:
 
     def end_level(self) -> None:
         ball = list(filter(lambda e: type(e).__name__ == "Ball", self.entities))[0]
-        ball.reset()
+        ball.reset(self)
         self.playing = False
 
     def end_game(self, *args, **kwargs):
