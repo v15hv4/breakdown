@@ -286,7 +286,7 @@ class Game:
                 if not self.playing and not self.game_over:
                     sys.stdout.write(self.cursor["RESET"]())
                     sys.stdout.write(
-                        f"{self.cursor['DOWN'](self.height // 2)}{self.cursor['RIGHT']((self.width // 2) - 6)}"
+                        f"{self.cursor['DOWN'](self.height // 2)}{self.cursor['RIGHT']((self.width // 2) - 8)}"
                     )
                     sys.stdout.write("Press W to start.")
 
