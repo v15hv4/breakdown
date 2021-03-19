@@ -13,5 +13,11 @@ The player will be using a paddle with a bouncing ball to smash awall of bricks 
 - Install dependencies: `pip install -r requirements.txt`
 - Run the game: `python main.py`
 
+## Keybindings
+[W]: Start Level  
+[A]: Move Paddle Left  
+[D]: Move Paddle Right  
+[L]: Skip Level
+
 #### Note
 Run the game using `xset r rate 1; python main.py; xset r rate 660 25` to adjust your keyboard's repeat rate for a smoother experience.
