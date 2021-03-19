@@ -6,6 +6,7 @@ from brick import Brick
 from paddle import Paddle
 from ball import Ball
 
+from levels import AVAILABLE_LEVELS
 from config import *
 
 
@@ -63,20 +64,22 @@ class Game:
         if level == 0:
             return
 
-        self.entities = []
-        BRICK_LAYOUT = [LEVEL_LAYOUT_1, LEVEL_LAYOUT_2, LEVEL_LAYOUT_3][level - 1]
+        current_level = AVAILABLE_LEVELS[level - 1]
+
+        # entities
+        self.entities = [*current_level.entities]
 
         # bricks
         for i in range(BRICK_LINE_COUNT):
             for j in range(BRICK_LINE_COUNT):
-                if BRICK_LAYOUT[j][i]:
+                if current_level.layout[j][i]:
                     brick = Brick(
                         id=f"brick{i}{j}",
                         dimens=(BRICK_WIDTH, 1),
                         position=(BRICK_PADDING + (i * BRICK_WIDTH), 6 + j),
-                        health=BRICK_LAYOUT[j][i][0],
-                        powerup=BRICK_LAYOUT[j][i][1],
-                        rainbow=(BRICK_LAYOUT[j][i][0] > 0)
+                        health=current_level.layout[j][i][0],
+                        powerup=current_level.layout[j][i][1],
+                        rainbow=(current_level.layout[j][i][0] > 0)
                         and (random.randint(0, 9) < BRICK_RAINBOW_CHANCE),
                     )
                     self.register(brick)
@@ -239,6 +242,9 @@ class Game:
             # check for level clearance
             if type(entity).__name__ == "Brick" and entity.health > 0:
                 level_incomplete += 1
+
+            if entity.id == "boss":
+                level_incomplete = 1
 
             # update powerup status
             if hasattr(entity, "active_powerup"):
